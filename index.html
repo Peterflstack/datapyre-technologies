@@ -890,6 +890,7 @@
     const CLOSE_SVG = `<svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>`;
 
     let isOpen = false, greeted = false, chipsDismissed = false;
+    let lead = { active: false, step: null, data: {}, triggered: false };
 
     /* ── Responses ── */
     const R = {
@@ -1003,11 +1004,105 @@
       if (!text) return;
       addMsg('user', text);
       novaInput.value = '';
+      if (lead.active) { handleLeadFlow(text); return; }
       const typing = showTyping();
       const intent = matchIntent(text);
       const reply  = pick(R[intent] || R.fallback);
       const delay  = Math.min(1600, 550 + text.length * 4);
-      setTimeout(() => { typing.remove(); addMsg('nova', reply); }, delay);
+      const LEAD_TRIGGERS = ['contact','start','pricing','web','mobile','ai','data','ict','ads','startup','services','maintenance'];
+      setTimeout(() => {
+        typing.remove();
+        addMsg('nova', reply);
+        if (LEAD_TRIGGERS.includes(intent) && !lead.triggered) {
+          lead.triggered = true;
+          setTimeout(() => {
+            addMsg('nova', 'Want me to pass your details to the Corestack team so they can follow up? 📋');
+            showYesNo();
+          }, 700);
+        }
+      }, delay);
+    }
+
+    function showYesNo() {
+      novaChips.innerHTML = '<button class="nova-chip" id="lead-yes">Yes, take my details ✅</button><button class="nova-chip" id="lead-no">No thanks</button>';
+      novaChips.style.display = 'flex';
+      document.getElementById('lead-yes').addEventListener('click', () => {
+        novaChips.style.display = 'none'; novaChips.innerHTML = '';
+        addMsg('user', 'Yes, take my details');
+        startLeadFlow();
+      });
+      document.getElementById('lead-no').addEventListener('click', () => {
+        novaChips.style.display = 'none'; novaChips.innerHTML = '';
+        addMsg('user', 'No thanks');
+        const t = showTyping();
+        setTimeout(() => { t.remove(); addMsg('nova', 'No worries! The contact form and the WhatsApp button are always there. 😊'); }, 700);
+      });
+    }
+
+    function startLeadFlow() {
+      lead.active = true; lead.step = 'name'; lead.data = {};
+      const t = showTyping();
+      setTimeout(() => { t.remove(); addMsg('nova', "Great! Let's get your details to the team. 🙌\n\nFirst, what's your name?"); }, 700);
+    }
+
+    async function handleLeadFlow(text) {
+      const t = showTyping();
+      const D = 750;
+      switch (lead.step) {
+        case 'name':
+          if (text.length < 2) { setTimeout(() => { t.remove(); addMsg('nova', 'Could you share your full name? 😊'); }, D); return; }
+          lead.data.name = text;
+          lead.step = 'email';
+          setTimeout(() => { t.remove(); addMsg('nova', `Nice to meet you, ${text.split(' ')[0]}! 👋 What's your email address?`); }, D);
+          break;
+        case 'email':
+          if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(text)) { setTimeout(() => { t.remove(); addMsg('nova', "That doesn't look like a valid email — could you double-check? 🙏"); }, D); return; }
+          lead.data.email = text.toLowerCase();
+          lead.step = 'company';
+          setTimeout(() => { t.remove(); addMsg('nova', 'Got it! What company or organisation are you with? (Type "skip" if not applicable)'); }, D);
+          break;
+        case 'company':
+          lead.data.company = ['skip','none','-','n/a'].includes(text.toLowerCase()) ? null : text;
+          lead.step = 'service';
+          setTimeout(() => { t.remove(); addMsg('nova', 'What service are you most interested in?\n\n🌐 Web Design & Development\n📱 Mobile App\n🤖 AI & Automation\n📊 Data & Analytics\n☁️ ICT & Cloud\n📣 Performance Advertising'); }, D);
+          break;
+        case 'service':
+          lead.data.service = text;
+          lead.step = 'message';
+          setTimeout(() => { t.remove(); addMsg('nova', 'Almost there! Give me a quick brief — what are you trying to build or solve? 📝'); }, D);
+          break;
+        case 'message':
+          lead.data.message = text;
+          lead.step = 'saving';
+          setTimeout(async () => {
+            t.remove();
+            addMsg('nova', 'Sending your details to the team… ⏳');
+            const ok = await saveLead();
+            if (ok) {
+              addMsg('nova', `All done, ${lead.data.name.split(' ')[0]}! 🎉 The Corestack team has your enquiry and will be in touch soon.\n\nYou can also reach us directly:\n📧 hello@corestack.co.ke\n📱 WhatsApp: +254 700 000 000`);
+            } else {
+              addMsg('nova', 'Hmm, something went wrong. Please try the contact form at the bottom of the page. 🙏');
+            }
+            lead = { active: false, step: null, data: {}, triggered: true };
+          }, D);
+          break;
+      }
+    }
+
+    async function saveLead() {
+      try {
+        const r = await fetch('https://hyfotqpttdgznfjzppvc.supabase.co/rest/v1/leads', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'apikey': 'sb_publishable_2lN1e_eazz1G5_DAHuiAOQ_oLBfQpcZ',
+            'Authorization': 'Bearer sb_publishable_2lN1e_eazz1G5_DAHuiAOQ_oLBfQpcZ',
+            'Prefer': 'return=minimal'
+          },
+          body: JSON.stringify({ name: lead.data.name, email: lead.data.email, company: lead.data.company || null, service: lead.data.service || null, message: lead.data.message || null })
+        });
+        return r.ok;
+      } catch (e) { console.error('Nova lead save:', e); return false; }
     }
 
     function toggleNova() {
