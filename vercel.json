@@ -1,9 +1,13 @@
 {
   "version": 2,
   "builds": [
+    { "src": "index.html", "use": "@vercel/static" },
     { "src": "server.js", "use": "@vercel/node" }
   ],
   "routes": [
-    { "src": "/(.*)", "dest": "server.js" }
+    { "src": "/api/(.*)", "dest": "server.js" },
+    { "src": "/corestack_icon.png", "dest": "corestack_icon.png" },
+    { "src": "/corestack_favicon.png", "dest": "corestack_favicon.png" },
+    { "src": "/(.*)", "dest": "index.html" }
   ]
 }
