@@ -1,0 +1,1026 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Corestack Technologies — Performance, Built In Layers</title>
+<link rel="icon" href="corestack_favicon.png" type="image/png" />
+<link rel="shortcut icon" href="corestack_favicon.png" type="image/png" />
+<meta name="description" content="Corestack Technologies designs and engineers websites, mobile apps, and AI tools for growing brands — then scales them with full-funnel advertising. Based in Nairobi, Kenya." />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Corestack Technologies — Performance, Built In Layers" />
+<meta property="og:description" content="Corestack Technologies designs and engineers websites, mobile apps, and AI tools for growing brands — then scales them with full-funnel advertising. Based in Nairobi, Kenya." />
+<meta property="og:image" content="corestack_icon.png" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="Corestack Technologies — Performance, Built In Layers" />
+<meta name="twitter:description" content="Websites, mobile apps, AI, data and advertising as one connected stack. Based in Nairobi, Kenya." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --ink:          #0a1733;
+    --ink-soft:     #112248;
+    --ink-line:     #20335c;
+    --paper:        #eaf0fb;
+    --silver:       #c9d2de;
+    --muted:        #8ea0c0;
+    --accent:       #2e8bff;
+    --accent-bright:#2ca6f9;
+    --accent-dim:   #0a5fd0;
+    --gold:         #e18e26;
+    --radius: 14px;
+    --maxw: 1180px;
+    --ease: cubic-bezier(0.22, 1, 0.36, 1);
+    --pop:  cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--ink);
+    color: var(--paper);
+    font-family: 'Hanken Grotesk', sans-serif;
+    font-size: 17px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
+    opacity: 0.035; pointer-events: none; z-index: 9999; mix-blend-mode: overlay;
+  }
+  body::after {
+    content: '';
+    position: fixed; inset: 0;
+    background-image:
+      linear-gradient(var(--ink-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--ink-line) 1px, transparent 1px);
+    background-size: 64px 64px;
+    opacity: 0.18; pointer-events: none; z-index: 0;
+    -webkit-mask-image: radial-gradient(circle at 70% 0%, black, transparent 70%);
+    mask-image: radial-gradient(circle at 70% 0%, black, transparent 70%);
+  }
+
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 28px; position: relative; z-index: 1; }
+  a { color: inherit; text-decoration: none; }
+  h1, h2, h3, .display { font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; line-height: 1.02; letter-spacing: -0.02em; }
+  .accent { color: var(--accent); }
+  .muted  { color: var(--muted); }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    backdrop-filter: blur(12px);
+    background: rgba(10,10,12,0.55);
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.4s var(--ease), background 0.4s var(--ease);
+  }
+  nav.scrolled { border-color: var(--ink-line); background: rgba(10,10,12,0.82); }
+  .nav-inner { display: flex; align-items: center; justify-content: space-between; height: 72px; }
+  .logo {
+    display: flex;
+    align-items: center;
+  }
+  .logo-mark {
+    width: 140px;
+    height: auto;
+    display: block;
+    flex-shrink: 0;
+    object-fit: contain;
+    filter: drop-shadow(0 0 14px rgba(255,255,255,0.18)) drop-shadow(0 3px 10px rgba(0,0,0,0.5));
+    transition: filter 0.3s var(--ease);
+  }
+  .logo:hover .logo-mark {
+    filter: drop-shadow(0 0 14px rgba(225,142,38,0.65)) drop-shadow(0 3px 10px rgba(0,0,0,0.5));
+  }
+  .nav-links { display: flex; gap: 34px; align-items: center; }
+  .nav-links a { font-size: 15px; color: var(--muted); transition: color 0.25s; }
+  .nav-links a:hover { color: var(--gold); }
+
+  /* ── BUTTONS ── */
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    font-family: 'Hanken Grotesk'; font-weight: 600; font-size: 15px;
+    background: var(--accent); color: #061634; border: none;
+    border-radius: 100px; padding: 13px 28px; cursor: pointer;
+    transition: transform 0.3s var(--pop), background 0.25s, box-shadow 0.3s;
+    position: relative; overflow: hidden;
+  }
+  .btn::after {
+    content: ''; position: absolute; top: 0; left: -120%; width: 55%; height: 100%;
+    background: linear-gradient(120deg, transparent, rgba(255,255,255,0.55), transparent);
+    transform: skewX(-20deg); transition: left 0.6s var(--ease); pointer-events: none;
+  }
+  .btn:hover { transform: translateY(-4px) scale(1.07); background: var(--accent-bright); box-shadow: 0 14px 36px -8px rgba(44,166,249,0.6); }
+  .btn:hover::after { left: 150%; }
+  .btn:active { background: var(--gold); transform: translateY(-1px) scale(0.98); }
+  .btn-ghost { background: transparent; color: var(--paper); border: 1px solid var(--ink-line); }
+  .btn-ghost:hover { background: var(--accent); color: #061634; border-color: var(--accent); transform: translateY(-4px) scale(1.07); box-shadow: 0 14px 36px -10px rgba(46,139,255,0.55); }
+  .menu-toggle { display: none; background: none; border: none; color: var(--paper); font-size: 26px; cursor: pointer; }
+
+  /* ── EYEBROW ── */
+  .eyebrow {
+    font-size: 13px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent);
+    font-weight: 600; margin-bottom: 26px; display: flex; align-items: center; gap: 12px;
+  }
+  .eyebrow::before { content: ''; width: 28px; height: 1px; background: var(--gold); display: inline-block; flex-shrink: 0; }
+
+  /* ── TYPEWRITER ── */
+  .typewriter-wrap {
+    text-transform: none;
+    letter-spacing: 0.04em;
+    font-size: 15px;
+    color: var(--accent);
+  }
+  .typewriter-wrap::before { background: var(--gold); }
+  .tw-cursor {
+    color: var(--gold);
+    animation: blink 0.72s step-end infinite;
+  }
+  @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+  /* ── HERO ── */
+  header.hero { padding: 190px 0 110px; position: relative; }
+  .hero-grid { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 50px; align-items: center; }
+  h1.hero-title { font-size: clamp(44px, 6.4vw, 82px); font-weight: 800; }
+  h1.hero-title em { font-style: italic; font-weight: 400; color: var(--accent); }
+  .hero-sub { font-size: clamp(17px, 1.4vw, 20px); color: var(--muted); max-width: 520px; margin: 30px 0 38px; }
+  .hero-cta { display: flex; gap: 14px; flex-wrap: wrap; }
+
+  /* hero stack layers */
+  .stack {
+    display: flex; flex-direction: column; gap: 16px;
+    height: 440px; justify-content: center;
+  }
+  .layer {
+    display: flex; align-items: center; gap: 16px;
+    background: var(--ink-soft); border: 1px solid var(--ink-line);
+    border-radius: 12px; padding: 16px 22px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+  }
+  .layer:hover { border-color: var(--accent); box-shadow: 0 8px 32px -12px rgba(46,139,255,0.4); }
+  .dot {
+    width: 10px; height: 10px; border-radius: 50%; background: var(--accent); flex-shrink: 0;
+  }
+  .tag { font-family: 'Bricolage Grotesque'; font-weight: 700; font-size: 17px; }
+  .layer small { color: var(--muted); font-size: 13px; margin-left: auto; }
+
+  /* ── CLIENTS BAR ── */
+  .clients { border-top: 1px solid var(--ink-line); border-bottom: 1px solid var(--ink-line); padding: 30px 0; }
+  .clients-inner { display: flex; align-items: center; gap: 40px; flex-wrap: wrap; }
+  .clients-label { font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); }
+  .clients-logos { display: flex; gap: 16px; flex-wrap: wrap; align-items: center; flex: 1; }
+  .clients-logos span {
+    font-family: 'Bricolage Grotesque'; font-weight: 600; font-size: 15px;
+    color: var(--paper); opacity: 0.5; letter-spacing: 0.04em; text-transform: uppercase;
+    transition: opacity 0.3s, border-color 0.3s;
+    padding: 7px 18px;
+    border: 1px solid var(--ink-line);
+    border-radius: 40px;
+  }
+  .clients-logos span:hover { opacity: 1; border-color: var(--gold); }
+
+  /* ── SERVICES ── */
+  section { padding: 110px 0; }
+  .sec-head { max-width: 680px; margin-bottom: 64px; }
+  .sec-head h2 { font-size: clamp(34px, 4vw, 52px); margin: 14px 0 20px; }
+  .sec-head p { color: var(--muted); font-size: 18px; line-height: 1.7; }
+  .services { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+
+  .svc {
+    border: 1px solid var(--ink-line); border-radius: var(--radius); padding: 34px 32px;
+    background: linear-gradient(160deg, var(--ink-soft), transparent);
+    position: relative; overflow: hidden;
+    transition: border-color 0.3s var(--ease), transform 0.3s var(--pop), box-shadow 0.3s var(--ease);
+  }
+  .svc.feature { grid-column: span 2; }
+  .svc:hover { border-color: var(--accent); transform: translateY(-8px) scale(1.025); box-shadow: 0 26px 60px -22px rgba(46,139,255,0.55); }
+  .svc::after {
+    content: ''; position: absolute; top: -40%; right: -20%; width: 240px; height: 240px;
+    background: radial-gradient(circle, rgba(225,142,38,0.12), transparent 65%);
+    opacity: 0; transition: opacity 0.4s; filter: blur(20px); pointer-events: none;
+  }
+  .svc:hover::after { opacity: 1; }
+  .svc-num { font-family: 'Bricolage Grotesque'; font-size: 13px; color: var(--gold); letter-spacing: 0.1em; }
+  .svc h3 { font-size: 24px; margin: 14px 0 12px; }
+  .svc.feature h3 { font-size: 30px; }
+  .svc p { color: var(--muted); font-size: 16px; max-width: 560px; }
+  .svc-tags { margin-top: 20px; display: flex; gap: 8px; flex-wrap: wrap; }
+  .svc-tags em {
+    font-style: normal; font-size: 13px; color: var(--paper); opacity: 0.65;
+    border: 1px solid var(--ink-line); border-radius: 100px; padding: 5px 13px;
+    transition: border-color 0.25s, color 0.25s, opacity 0.25s;
+  }
+  .svc-tags em:hover { border-color: var(--gold); color: var(--gold); opacity: 1; }
+
+  /* ── APPROACH / STATS ── */
+  .approach { text-align: center; }
+  .approach .big {
+    font-family: 'Bricolage Grotesque'; font-weight: 400; font-style: italic;
+    font-size: clamp(28px, 4vw, 46px); line-height: 1.25; max-width: 920px; margin: 0 auto; letter-spacing: -0.01em;
+  }
+  .approach .big b { font-style: normal; font-weight: 700; color: var(--accent); }
+  .stats { display: flex; justify-content: center; gap: 70px; margin-top: 70px; flex-wrap: wrap; }
+  .stat .n {
+    font-family: 'Bricolage Grotesque'; font-weight: 800; font-size: 52px;
+    background: linear-gradient(135deg, var(--paper), var(--gold));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .stat .l { color: var(--gold); font-size: 14px; letter-spacing: 0.05em; margin-top: 6px; }
+
+  /* ── CONTACT ── */
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start; }
+  .contact-left h2 { font-size: clamp(34px, 4.5vw, 56px); }
+  .contact-left p { color: var(--muted); margin-top: 20px; font-size: 18px; max-width: 420px; }
+  .contact-meta { margin-top: 44px; display: flex; flex-direction: column; gap: 18px; }
+  .contact-meta a, .contact-meta div { display: flex; align-items: center; gap: 14px; font-size: 16px; }
+  .contact-meta .k { color: var(--gold); width: 96px; flex-shrink: 0; font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; }
+  .form { display: flex; flex-direction: column; gap: 16px; }
+  .form .row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .field label { display: block; font-size: 13px; color: var(--muted); margin-bottom: 8px; letter-spacing: 0.04em; }
+  .field input, .field select, .field textarea {
+    width: 100%; background: var(--ink-soft); border: 1px solid var(--ink-line); border-radius: 10px;
+    padding: 14px 16px; color: var(--paper); font-family: inherit; font-size: 15px; transition: border-color 0.25s;
+  }
+  .field input:focus, .field select:focus, .field textarea:focus { outline: none; border-color: var(--accent); }
+  .field textarea { resize: vertical; min-height: 110px; }
+  .form-msg { font-size: 15px; color: var(--accent); min-height: 20px; }
+
+  /* ── FOOTER ── */
+  footer { border-top: 1px solid var(--ink-line); padding: 60px 0 40px; }
+  .foot-inner { display: flex; justify-content: space-between; align-items: flex-start; gap: 30px; flex-wrap: wrap; }
+  .foot-inner p { color: var(--muted); font-size: 14px; max-width: 300px; margin-top: 16px; }
+  .foot-links { display: flex; gap: 28px; }
+  .foot-links a { color: var(--muted); font-size: 15px; transition: color 0.25s; }
+  .foot-links a:hover { color: var(--gold); }
+  .copyright { margin-top: 50px; padding-top: 26px; border-top: 1px solid var(--ink-line); display: flex; justify-content: space-between; color: var(--muted); font-size: 13px; flex-wrap: wrap; gap: 10px; }
+  .copyright .tagline { color: var(--gold); }
+
+  /* ── BACK TO TOP (bottom-left, always visible) ── */
+  .scroll-top {
+    position: fixed; bottom: 20px; left: 20px; z-index: 1001;
+    width: 34px; height: 34px; border-radius: 50%;
+    background: rgba(10,23,51,0.88);
+    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    border: 1px solid var(--ink-line);
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    color: var(--muted);
+    transition: color 0.25s, border-color 0.25s, transform 0.25s var(--pop), box-shadow 0.25s;
+  }
+  .scroll-top:hover {
+    color: var(--gold); border-color: var(--gold);
+    transform: scale(1.1) translateY(-2px);
+    box-shadow: 0 8px 24px -8px rgba(225,142,38,0.45);
+  }
+
+  /* ── FAB STACK ── */
+  .fab-stack {
+    position: fixed; bottom: 28px; right: 28px;
+    display: flex; flex-direction: column; align-items: center; gap: 12px;
+    z-index: 1001;
+  }
+  .fab-nova {
+    width: 54px; height: 54px; border-radius: 50%;
+    background: linear-gradient(135deg, #2e8bff, #e18e26);
+    border: none; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 6px 24px -6px rgba(46,139,255,0.5);
+    transition: transform 0.3s var(--pop), box-shadow 0.3s;
+    position: relative;
+  }
+  .fab-nova:hover { transform: scale(1.12); box-shadow: 0 12px 32px -6px rgba(46,139,255,0.7); }
+  .nova-ping {
+    position: absolute; top: -2px; right: -2px;
+    width: 14px; height: 14px; border-radius: 50%;
+    background: var(--gold); border: 2px solid var(--ink);
+    pointer-events: none;
+    animation: novaPing 2s ease-out infinite;
+  }
+  @keyframes novaPing {
+    0%   { transform: scale(1); opacity: 1; }
+    70%  { transform: scale(2.2); opacity: 0; }
+    100% { transform: scale(2.2); opacity: 0; }
+  }
+  .fab-wa {
+    width: 54px; height: 54px; border-radius: 50%;
+    background: #25D366;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 6px 24px -6px rgba(37,211,102,0.55);
+    transition: transform 0.3s var(--pop), box-shadow 0.3s;
+  }
+  .fab-wa:hover { transform: scale(1.12); box-shadow: 0 12px 32px -6px rgba(37,211,102,0.7); }
+
+  /* ── NOVA CHAT WINDOW ── */
+  .nova-window {
+    position: fixed; bottom: 108px; right: 28px;
+    width: 365px; height: 530px;
+    border-radius: 22px;
+    background: var(--ink);
+    border: 1px solid var(--ink-line);
+    box-shadow: 0 32px 90px -20px rgba(0,0,0,0.85), 0 0 0 1px rgba(46,139,255,0.08);
+    display: flex; flex-direction: column; overflow: hidden;
+    transform: scale(0.8) translateY(30px);
+    opacity: 0; pointer-events: none;
+    transition: transform 0.4s var(--pop), opacity 0.3s var(--ease);
+    transform-origin: bottom right;
+    z-index: 999;
+  }
+  .nova-window.open { transform: scale(1) translateY(0); opacity: 1; pointer-events: all; }
+
+  .nova-header {
+    display: flex; align-items: center; gap: 12px;
+    padding: 16px 20px;
+    background: linear-gradient(135deg, var(--ink-soft), var(--ink));
+    border-bottom: 1px solid var(--ink-line);
+    flex-shrink: 0;
+  }
+  .nova-avatar {
+    width: 42px; height: 42px; border-radius: 50%;
+    background: linear-gradient(135deg, #2e8bff, #e18e26);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Bricolage Grotesque'; font-weight: 800; font-size: 18px; color: var(--ink);
+    flex-shrink: 0;
+  }
+  .nova-info { flex: 1; }
+  .nova-name { font-family: 'Bricolage Grotesque'; font-weight: 700; font-size: 15px; }
+  .nova-name .ng { color: var(--gold); }
+  .nova-status { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--muted); margin-top: 2px; }
+  .status-dot { width: 7px; height: 7px; border-radius: 50%; background: #22c55e; flex-shrink: 0; animation: statusPulse 2.2s ease-in-out infinite; }
+  @keyframes statusPulse { 0%,100%{opacity:1;} 50%{opacity:0.5;} }
+  .nova-close-btn { background: none; border: none; color: var(--muted); font-size: 22px; cursor: pointer; line-height: 1; padding: 4px; transition: color 0.2s; }
+  .nova-close-btn:hover { color: var(--paper); }
+
+  .nova-messages { flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 10px; }
+  .nova-messages::-webkit-scrollbar { width: 3px; }
+  .nova-messages::-webkit-scrollbar-thumb { background: var(--ink-line); border-radius: 3px; }
+
+  .nova-msg { display: flex; flex-direction: column; }
+  .nova-msg-nova { align-items: flex-start; }
+  .nova-msg-user { align-items: flex-end; }
+  .nova-bubble {
+    max-width: 85%; padding: 11px 15px;
+    font-size: 13.5px; line-height: 1.6; border-radius: 18px;
+  }
+  .nova-msg-nova .nova-bubble { background: var(--ink-soft); border: 1px solid var(--ink-line); color: var(--paper); border-bottom-left-radius: 4px; }
+  .nova-msg-user .nova-bubble { background: linear-gradient(135deg, #2e8bff, #1a6fd4); color: white; border-bottom-right-radius: 4px; }
+  .nova-time { font-size: 10px; color: var(--muted); margin-top: 4px; }
+
+  .nova-typing .nova-bubble { display: flex; align-items: center; gap: 5px; padding: 14px 18px; }
+  .nova-typing .nova-bubble span {
+    width: 7px; height: 7px; border-radius: 50%; background: var(--muted); display: block;
+    animation: typingBounce 1.3s ease-in-out infinite;
+  }
+  .nova-typing .nova-bubble span:nth-child(2) { animation-delay: 0.18s; }
+  .nova-typing .nova-bubble span:nth-child(3) { animation-delay: 0.36s; }
+  @keyframes typingBounce {
+    0%,80%,100% { transform: translateY(0); background: var(--muted); }
+    40%          { transform: translateY(-9px); background: var(--gold); }
+  }
+
+  .nova-chips { display: flex; flex-wrap: wrap; gap: 7px; padding: 10px 16px; flex-shrink: 0; }
+  .nova-chip {
+    background: transparent; border: 1px solid var(--ink-line); color: var(--silver);
+    border-radius: 100px; padding: 6px 13px; font-size: 12px; font-family: inherit; cursor: pointer;
+    transition: border-color 0.2s, color 0.2s, background 0.2s;
+  }
+  .nova-chip:hover { border-color: var(--gold); color: var(--gold); background: rgba(225,142,38,0.07); }
+
+  .nova-input-row {
+    display: flex; align-items: center; gap: 10px;
+    padding: 12px 16px;
+    background: var(--ink); border-top: 1px solid var(--ink-line);
+    flex-shrink: 0;
+  }
+  .nova-input-row input {
+    flex: 1; background: var(--ink-soft); border: 1px solid var(--ink-line);
+    border-radius: 100px; padding: 10px 16px;
+    color: var(--paper); font-family: inherit; font-size: 14px;
+    transition: border-color 0.25s; outline: none;
+  }
+  .nova-input-row input:focus { border-color: var(--accent); }
+  .nova-send {
+    width: 38px; height: 38px; border-radius: 50%; border: none; cursor: pointer;
+    background: linear-gradient(135deg, var(--accent), var(--gold));
+    color: white; display: flex; align-items: center; justify-content: center;
+    font-size: 16px; flex-shrink: 0; transition: transform 0.2s var(--pop);
+  }
+  .nova-send:hover { transform: scale(1.1); }
+
+  .nova-footer { text-align: center; font-size: 10px; color: var(--muted); padding: 6px 0 10px; flex-shrink: 0; }
+  .nova-footer .ng { color: var(--gold); }
+
+  @media (max-width: 480px) {
+    .nova-window { width: calc(100vw - 20px); right: 10px; bottom: 100px; height: 490px; }
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes popIn {
+    0%   { opacity: 0; transform: translateY(26px) scale(0.92); }
+    55%  { opacity: 1; }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  .reveal { opacity: 0; }
+  .reveal.in { animation: popIn 0.6s var(--pop) forwards; }
+  .reveal.shown { opacity: 1; }
+  .services .svc:nth-child(1) { animation-delay: 0.04s; }
+  .services .svc:nth-child(2) { animation-delay: 0.11s; }
+  .services .svc:nth-child(3) { animation-delay: 0.18s; }
+  .services .svc:nth-child(4) { animation-delay: 0.25s; }
+  .services .svc:nth-child(5) { animation-delay: 0.32s; }
+  .services .svc:nth-child(6) { animation-delay: 0.39s; }
+
+  @keyframes drift { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-10px);} }
+  .stack { animation: drift 6s ease-in-out infinite; }
+
+  @keyframes dotPulse {
+    0%,100%{ box-shadow:0 0 0 0 rgba(46,139,255,0); transform:scale(1); }
+    50%     { box-shadow:0 0 14px 3px rgba(46,139,255,0.75); transform:scale(1.3); }
+  }
+  .dot { animation: dotPulse 2.4s ease-in-out infinite; }
+  .layer:nth-child(2) .dot { animation-delay: 0.4s; }
+  .layer:nth-child(3) .dot { animation-delay: 0.8s; }
+  .layer:nth-child(4) .dot { animation-delay: 1.2s; }
+  .layer:nth-child(5) .dot { animation-delay: 1.6s; }
+
+  @keyframes heroGlow {
+    0%,100%{ opacity:0.35; transform:translate(0,0) scale(1); }
+    50%     { opacity:0.62; transform:translate(34px,-22px) scale(1.12); }
+  }
+  header.hero::before {
+    content:''; position:absolute; top:-8%; right:6%; width:460px; height:460px;
+    background:radial-gradient(circle,rgba(46,139,255,0.5),transparent 62%);
+    filter:blur(60px); z-index:0; pointer-events:none;
+    animation:heroGlow 9s ease-in-out infinite;
+  }
+  header.hero .wrap { position:relative; z-index:1; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal,.reveal.in,.reveal.shown { opacity:1!important; }
+    *,.stack,.dot,header.hero::before { animation:none!important; transition:none!important; }
+  }
+
+  @keyframes floatIn { from{opacity:0;transform:translateY(40px) scale(0.96);} to{opacity:1;} }
+  .hero .eyebrow,.hero h1,.hero-sub,.hero-cta { opacity:0; animation:floatIn 0.9s var(--ease) forwards; }
+  .hero h1 { animation-delay:0.1s; }
+  .hero-sub { animation-delay:0.25s; }
+  .hero-cta { animation-delay:0.4s; }
+  .layer { opacity:0; animation:floatIn 0.8s var(--ease) forwards; }
+  .layer:nth-child(1){animation-delay:0.35s;}
+  .layer:nth-child(2){animation-delay:0.45s;}
+  .layer:nth-child(3){animation-delay:0.55s;}
+  .layer:nth-child(4){animation-delay:0.65s;}
+  .layer:nth-child(5){animation-delay:0.75s;}
+
+  @media (max-width: 860px) {
+    .nav-links {
+      display:none; flex-direction:column; gap:0;
+      position:fixed; top:72px; left:0; right:0;
+      background:rgba(10,23,51,0.97);
+      backdrop-filter:blur(18px); -webkit-backdrop-filter:blur(18px);
+      padding:12px 28px 28px;
+      border-bottom:1px solid var(--ink-line); z-index:99;
+    }
+    .nav-links.open { display:flex; }
+    .nav-links a:not(.btn) { padding:15px 0; border-bottom:1px solid rgba(32,51,92,0.6); font-size:17px; color:var(--paper); }
+    .nav-links a.btn { margin-top:16px; text-align:center; }
+    .menu-toggle { display:block; }
+    .hero-grid { grid-template-columns:1fr; }
+    .stack { height:360px; margin-top:30px; }
+    .services { grid-template-columns:1fr; }
+    .svc.feature { grid-column:span 1; }
+    .contact-grid { grid-template-columns:1fr; gap:40px; }
+    .stats { gap:40px; }
+    body::after { background-size:44px 44px; }
+  }
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <div class="wrap nav-inner">
+    <a href="#top" class="logo">
+      <img src="corestack_icon.png" class="logo-mark" alt="Corestack Technologies" />
+    </a>
+    <div class="nav-links">
+      <a href="#services">What we do</a>
+      <a href="#work">Work</a>
+      <a href="#about">About</a>
+      <a href="#contact" class="btn">Start a project</a>
+    </div>
+    <button class="menu-toggle" id="menu-toggle" aria-label="Open navigation menu" aria-expanded="false">≡</button>
+  </div>
+</nav>
+
+<a id="top"></a>
+<header class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow typewriter-wrap">Corestack Technologies&nbsp;<span id="tw-word"></span><span class="tw-cursor">|</span></div>
+      <h1 class="hero-title">We build the software, sites, and AI that growing brands <em>run on.</em></h1>
+      <p class="hero-sub">Corestack Technologies designs and engineers digital products, web, mobile, and AI, then grows them with full-funnel advertising. One connected stack, built to scale.</p>
+      <div class="hero-cta">
+        <a href="#contact" class="btn">Start a project</a>
+        <a href="#services" class="btn btn-ghost">See what we do</a>
+      </div>
+    </div>
+    <div class="stack" aria-hidden="true">
+      <div class="layer"><span class="dot"></span><span class="tag">Web &amp; Software</span><small>design &amp; build</small></div>
+      <div class="layer"><span class="dot"></span><span class="tag">Mobile Apps</span><small>iOS &amp; Android</small></div>
+      <div class="layer"><span class="dot"></span><span class="tag">AI &amp; Automation</span><small>tools &amp; agents</small></div>
+      <div class="layer"><span class="dot"></span><span class="tag">Data</span><small>analytics &amp; reporting</small></div>
+      <div class="layer"><span class="dot"></span><span class="tag">Advertising</span><small>multi-platform</small></div>
+    </div>
+  </div>
+</header>
+
+<div class="clients">
+  <div class="wrap clients-inner">
+    <span class="clients-label">Trusted to deliver for</span>
+    <div class="clients-logos">
+      <span>Dex Mumo Group</span>
+      <span>Zetech University</span>
+      <span>Nax Today</span>
+      <span>Editon Consortium</span>
+    </div>
+  </div>
+</div>
+
+<section id="services">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="eyebrow">What we do</div>
+      <h2>One team for the whole digital stack.</h2>
+      <p>Most brands stitch together an ads person, a web developer, and a designer who never talk to each other. We run it as one connected system, so strategy, build, and performance pull in the same direction.</p>
+    </div>
+    <div class="services">
+      <div class="svc feature reveal">
+        <div class="svc-num">01 — Lead service</div>
+        <h3>Web Design &amp; Software Development</h3>
+        <p>Fast, modern websites, web apps, and full-stack software that look sharp and actually convert. Engineered to scale with you from first launch to serious traffic.</p>
+        <div class="svc-tags"><em>Websites</em><em>Web apps</em><em>Full-stack</em><em>Scalable systems</em></div>
+      </div>
+      <div class="svc reveal">
+        <div class="svc-num">02</div>
+        <h3>Mobile App Design &amp; Development</h3>
+        <p>Native and cross-platform mobile apps, designed and built from concept to launch, with the polish users expect and the performance the business needs.</p>
+        <div class="svc-tags"><em>iOS &amp; Android</em><em>UI / UX</em><em>Cross-platform</em></div>
+      </div>
+      <div class="svc reveal">
+        <div class="svc-num">03</div>
+        <h3>AI &amp; Automation</h3>
+        <p>Custom AI tools, chatbots, and workflow automation that cut manual work and respond to customers around the clock.</p>
+        <div class="svc-tags"><em>AI tools</em><em>Chatbots</em><em>Workflows</em></div>
+      </div>
+      <div class="svc reveal">
+        <div class="svc-num">04</div>
+        <h3>Data &amp; Analytics</h3>
+        <p>Cross-platform dashboards and reporting that turn scattered numbers into clear decisions for leadership.</p>
+        <div class="svc-tags"><em>Dashboards</em><em>Insights</em></div>
+      </div>
+      <div class="svc reveal">
+        <div class="svc-num">05</div>
+        <h3>ICT &amp; Cloud Consultancy</h3>
+        <p>Practical guidance on cloud, tooling, and digital infrastructure so your technology supports the business instead of fighting it.</p>
+        <div class="svc-tags"><em>Cloud</em><em>Consultancy</em></div>
+      </div>
+      <div class="svc feature reveal">
+        <div class="svc-num">06</div>
+        <h3>Performance Advertising</h3>
+        <p>Full-funnel paid campaigns across Meta, Google, TikTok, LinkedIn, and emerging AI platforms like ChatGPT, managed end to end with executive-ready reporting.</p>
+        <div class="svc-tags"><em>Meta Ads</em><em>Google Ads</em><em>TikTok Ads</em><em>LinkedIn Ads</em><em>ChatGPT Ads</em></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="about" class="approach">
+  <div class="wrap">
+    <p class="big reveal">We named the company <b>Corestack</b> for a reason. Real digital results are not one clever campaign. They are <b>layers</b>, web, mobile, AI, data, and advertising, stacked so each one strengthens the next.</p>
+    <div class="stats">
+      <div class="stat reveal"><div class="n" data-count="100" data-suffix="+">0</div><div class="l">Brands served</div></div>
+      <div class="stat reveal"><div class="n" data-count="6"   data-suffix="">0</div><div class="l">Disciplines, one roof</div></div>
+      <div class="stat reveal"><div class="n" data-count="1"   data-suffix="">0</div><div class="l">Connected stack</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="work">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="eyebrow">Selected work</div>
+      <h2>Results we have shipped.</h2>
+      <p>A snapshot of recent work across advertising, digital build, and brand strategy.</p>
+    </div>
+    <div class="services">
+      <div class="svc reveal"><div class="svc-num">Education</div><h3>Zetech University</h3><p>Integrated Meta and Google advertising for the May intake, plus event campaigns, creative, and executive reporting.</p></div>
+      <div class="svc reveal"><div class="svc-num">Multi-sector</div><h3>Dex Mumo Group, Nax Today &amp; Editon Consortium</h3><p>Digital strategy, web presence, and brand growth for a portfolio of Kenyan businesses spanning group services, digital media, and publishing.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrap contact-grid">
+    <div class="contact-left reveal">
+      <div class="eyebrow">Start a project</div>
+      <h2>Let's build your stack.</h2>
+      <p>Tell us what you are trying to grow. We will come back with a clear, honest plan, no jargon, no fluff.</p>
+      <div class="contact-meta">
+        <div><span class="k">Email</span><a href="mailto:hello@corestack.co.ke">hello@corestack.co.ke</a></div>
+        <div><span class="k">WhatsApp</span><a href="https://wa.me/254700000000" target="_blank" rel="noopener">+254 700 000 000</a></div>
+        <div><span class="k">Based in</span><span>Nairobi, Kenya</span></div>
+      </div>
+    </div>
+    <div class="reveal">
+      <form class="form" id="contact-form">
+        <div class="row">
+          <div class="field"><label for="f-name">Name</label><input id="f-name" name="name" type="text" placeholder="Your name" required /></div>
+          <div class="field"><label for="f-email">Email</label><input id="f-email" name="email" type="email" placeholder="you@company.com" required /></div>
+        </div>
+        <div class="field"><label for="f-company">Company</label><input id="f-company" name="company" type="text" placeholder="Company or brand" /></div>
+        <div class="field"><label for="f-service">What do you need?</label>
+          <select id="f-service" name="service">
+            <option>Performance Advertising</option>
+            <option>Web Design &amp; Development</option>
+            <option>AI &amp; Automation</option>
+            <option>Data &amp; Analytics</option>
+            <option>ICT &amp; Cloud Consultancy</option>
+            <option>Not sure yet</option>
+          </select>
+        </div>
+        <div class="field"><label for="f-msg">Tell us a little more</label><textarea id="f-msg" name="message" placeholder="A sentence or two about your goal"></textarea></div>
+        <button class="btn" type="submit" id="form-btn">Send enquiry</button>
+        <div class="form-msg" id="form-msg"></div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-inner">
+      <div>
+        <a href="#top" class="logo"><img src="corestack_icon.png" class="logo-mark" alt="Corestack Technologies" /></a>
+        <p>Digital technology services, built in layers. Advertising, web, AI, and data as one connected stack.</p>
+      </div>
+      <div class="foot-links">
+        <a href="#services">What we do</a>
+        <a href="#work">Work</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </div>
+    <div class="copyright">
+      <span>© 2026 Corestack Technologies. Nairobi, Kenya.</span>
+      <span class="tagline">Built layer by layer.</span>
+    </div>
+  </div>
+</footer>
+
+<!-- Back to top — bottom left, always visible -->
+<button class="scroll-top" id="scroll-top" aria-label="Back to top">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+</button>
+
+<!-- FAB stack — Nova + WhatsApp -->
+<div class="fab-stack">
+  <button class="fab-nova" id="nova-btn" aria-label="Chat with Nova AI">
+    <span id="nova-icon">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
+    </span>
+    <span class="nova-ping"></span>
+  </button>
+  <a class="fab-wa" href="https://wa.me/254700000000" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+    </svg>
+  </a>
+</div>
+
+<!-- Nova chat window -->
+<div class="nova-window" id="nova-window">
+  <div class="nova-header">
+    <div class="nova-avatar">N</div>
+    <div class="nova-info">
+      <div class="nova-name">Nova <span class="ng">AI</span></div>
+      <div class="nova-status"><span class="status-dot"></span>Online · Corestack Technologies</div>
+    </div>
+    <button class="nova-close-btn" id="nova-close" aria-label="Close chat">×</button>
+  </div>
+  <div class="nova-messages" id="nova-messages"></div>
+  <div class="nova-chips" id="nova-chips" style="display:none;"></div>
+  <div class="nova-input-row">
+    <input type="text" id="nova-input" placeholder="Ask me anything…" autocomplete="off" />
+    <button class="nova-send" id="nova-send" aria-label="Send">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M2 21l21-9L2 3v7l15 2-15 2z"/></svg>
+    </button>
+  </div>
+  <div class="nova-footer">Powered by <span class="ng">Nova AI</span></div>
+</div>
+
+<script>
+  /* ── NAV SCROLL ── */
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 20);
+  });
+
+  /* ── MOBILE MENU ── */
+  const menuToggle = document.getElementById('menu-toggle');
+  const navLinks   = document.querySelector('.nav-links');
+  function closeMenu() {
+    navLinks.classList.remove('open');
+    menuToggle.textContent = '≡';
+    menuToggle.setAttribute('aria-expanded', 'false');
+    menuToggle.setAttribute('aria-label', 'Open navigation menu');
+  }
+  menuToggle.addEventListener('click', e => {
+    e.stopPropagation();
+    const open = navLinks.classList.toggle('open');
+    menuToggle.textContent = open ? '✕' : '≡';
+    menuToggle.setAttribute('aria-expanded', String(open));
+    menuToggle.setAttribute('aria-label', open ? 'Close navigation menu' : 'Open navigation menu');
+  });
+  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
+  document.addEventListener('click', e => { if (!nav.contains(e.target)) closeMenu(); });
+
+  /* ── SCROLL REVEAL ── */
+  const reveals = document.querySelectorAll('.reveal');
+  function settle(el) { el.classList.remove('in'); el.classList.add('shown'); }
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          const el = e.target;
+          el.classList.add('in');
+          io.unobserve(el);
+          el.addEventListener('animationend', () => settle(el), { once: true });
+        }
+      });
+    }, { threshold: 0.12 });
+    reveals.forEach(el => io.observe(el));
+    setTimeout(() => reveals.forEach(el => {
+      if (!el.classList.contains('in') && !el.classList.contains('shown')) settle(el);
+    }), 1600);
+  } else { reveals.forEach(settle); }
+
+  /* ── BACK TO TOP ── */
+  document.getElementById('scroll-top').addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  /* ── TYPEWRITER ── */
+  (function() {
+    const words = ['Builds.','Designs.','Automates.','Digitises.',
+                   'Advertises.','Scales.','Deploys.','Innovates.',
+                   'Analyses.','Integrates.','Maintains.','Transforms.'];
+    const el = document.getElementById('tw-word');
+    let wi = 0, ci = 0, deleting = false;
+    function tick() {
+      const word = words[wi];
+      if (!deleting) {
+        ci++;
+        el.textContent = word.slice(0, ci);
+        if (ci === word.length) { deleting = true; setTimeout(tick, 1900); return; }
+        setTimeout(tick, 88);
+      } else {
+        ci--;
+        el.textContent = word.slice(0, ci);
+        if (ci === 0) { deleting = false; wi = (wi + 1) % words.length; setTimeout(tick, 300); return; }
+        setTimeout(tick, 44);
+      }
+    }
+    setTimeout(tick, 900);
+  })();
+
+  /* ── COUNT-UP ── */
+  (function() {
+    function countUp(el) {
+      const target = +el.dataset.count;
+      const suffix = el.dataset.suffix || '';
+      const duration = Math.min(2200, Math.max(700, target * 16));
+      const start = performance.now();
+      (function step(now) {
+        const t = Math.min((now - start) / duration, 1);
+        const ease = 1 - Math.pow(1 - t, 4);
+        el.textContent = Math.round(ease * target) + suffix;
+        if (t < 1) requestAnimationFrame(step);
+      })(performance.now());
+    }
+    const statsEl = document.querySelector('.stats');
+    let fired = false;
+    const ob = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting && !fired) {
+        fired = true;
+        statsEl.querySelectorAll('.n[data-count]').forEach(el => countUp(el));
+        ob.disconnect();
+      }
+    }, { threshold: 0.35 });
+    ob.observe(statsEl);
+  })();
+
+  /* ── CONTACT FORM → local Express backend ── */
+  (function() {
+    const ENDPOINT = '/api/contact';
+    const form    = document.getElementById('contact-form');
+    const btn     = document.getElementById('form-btn');
+    const msg     = document.getElementById('form-msg');
+    form.addEventListener('submit', async e => {
+      e.preventDefault();
+      btn.textContent = 'Sending…'; btn.disabled = true; msg.textContent = '';
+      // Collect form values into a plain object (server expects JSON)
+      const payload = {
+        name:    document.getElementById('f-name').value,
+        email:   document.getElementById('f-email').value,
+        company: document.getElementById('f-company').value,
+        service: document.getElementById('f-service').value,
+        message: document.getElementById('f-msg').value,
+      };
+      try {
+        const res  = await fetch(ENDPOINT, {
+          method:  'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body:    JSON.stringify(payload),
+        });
+        const data = await res.json();
+        if (res.ok) {
+          msg.style.color = 'var(--accent)';
+          msg.textContent = data.message || "Thanks! We'll be in touch shortly.";
+          form.reset();
+        } else {
+          throw new Error(data.error || 'Server error');
+        }
+      } catch (err) {
+        msg.style.color = '#ff6b6b';
+        msg.textContent = err.message === 'Server error'
+          ? 'Something went wrong — email us at hello@corestack.co.ke'
+          : err.message;
+      } finally { btn.textContent = 'Send enquiry'; btn.disabled = false; }
+    });
+  })();
+
+  /* ── NOVA AI CHATBOT ── */
+  (function run() {
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', run); return;
+    }
+
+    const novaBtn   = document.getElementById('nova-btn');
+    const novaWin   = document.getElementById('nova-window');
+    const novaClose = document.getElementById('nova-close');
+    const novaMsgs  = document.getElementById('nova-messages');
+    const novaChips = document.getElementById('nova-chips');
+    const novaInput = document.getElementById('nova-input');
+    const novaSend  = document.getElementById('nova-send');
+    const novaIcon  = document.getElementById('nova-icon');
+
+    const CHAT_SVG  = `<svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>`;
+    const CLOSE_SVG = `<svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>`;
+
+    let isOpen = false, greeted = false, chipsDismissed = false;
+
+    /* ── Responses ── */
+    const R = {
+      greet:["Hey there! 👋 I'm Nova, Corestack's AI assistant. Ask me anything about our services, pricing, timelines, or getting started. What brings you here?","Hi! Great to have you here. I'm Nova — built by Corestack Technologies to give you fast, accurate answers. What can I help with? 🚀","Hello! Welcome to Corestack Technologies. I'm Nova. Ask me about web, mobile, AI, advertising, data — anything we do. What's on your mind?"],
+      services:["Here's what Corestack does:\n\n🌐 Web Design & Software Development\n📱 Mobile App Design & Development\n🤖 AI & Automation\n📊 Data & Analytics\n☁️ ICT & Cloud Consultancy\n📣 Performance Advertising (Meta, Google, TikTok, LinkedIn, ChatGPT)\n\nWhich interests you most?","We're a full-service digital technology company based in Nairobi. Six core services under one roof: Web, Mobile, AI, Data, ICT, and Performance Advertising. We build the product and grow it. What do you need?"],
+      web:["We design and build fast, modern websites, web apps, and full-stack software — engineered to convert and scale. From landing pages to complex platforms, we deliver clean, performant code.\n\nGot a project in mind? Tell me more.","Fast, modern, built to scale — that's how we approach web. Landing page, full platform, or custom web app. What are you trying to build?"],
+      mobile:["We design and develop iOS and Android apps, native and cross-platform. We handle UI/UX, development, testing, and App Store/Play Store deployment — from concept to launch.\n\nWhat kind of app are you thinking about?","iOS, Android, or both — we've got you. Full journey from design to launch. Got an idea? Tell me more."],
+      ai:["We build custom AI tools, intelligent chatbots, automation workflows, and ML integrations that cut manual work and keep businesses running 24/7.\n\nChatbot, workflow tool, or custom model? What problem are you trying to solve?","AI is one of our strongest areas right now. Chatbots, automation, custom models — we build it all. What's the use case?"],
+      data:["We create cross-platform dashboards, analytics pipelines, and reporting systems that turn raw data into clear decisions for leadership teams.\n\nWhat data challenge are you dealing with?","Scattered numbers across Meta, Google, CRM, and spreadsheets? We turn that into one clean dashboard leadership actually uses. Interested?"],
+      ict:["We offer ICT and cloud consultancy: infrastructure planning, cloud migration, tool selection, and digital transformation strategy — practical and jargon-free.\n\nWhat's the technology challenge you're trying to solve?","Cloud migration, infrastructure planning, digital transformation — practical guidance, no jargon. What's on your plate?"],
+      ads:["We run full-funnel paid campaigns across Meta, Google, TikTok, LinkedIn, and emerging AI platforms like ChatGPT. Strategy, creative, targeting, optimisation, and executive reporting — end to end.\n\nWhich platform are you most interested in?","Meta, Google, TikTok, LinkedIn, ChatGPT — we manage them all. Strategy, creative, optimisation, and reporting. What's your goal: leads, sales, sign-ups, or awareness?"],
+      pricing:["Our pricing is project-based and fully transparent — scope, complexity, and timeline drive the number.\n\nThe best move: share your brief and we'll send back a clear proposal. No guesswork, no surprises. Want to get a quote?","We price per project so you always know what you're getting before we start. Tell me what you need and I'll help you frame it for the team. 💬"],
+      contact:["Reach the Corestack team here:\n\n📧 hello@corestack.co.ke\n📱 WhatsApp: +254 700 000 000\n📍 Nairobi, Kenya\n\nThe green WhatsApp button on this page is the fastest route. 👇","You can reach us on:\n📧 hello@corestack.co.ke\n📱 WhatsApp: +254 700 000 000\n\nOr fill in the contact form at the bottom of this page. What's your preferred channel?"],
+      location:["We're based in Nairobi, Kenya 🇰🇪. We work with clients across East Africa and beyond — digital work travels well.","Nairobi is home base. Most collaboration happens over calls, Slack, and shared tools. Where are you based?"],
+      clients:["We've worked with Dex Mumo Group, Zetech University, Nax Today, and Editon Consortium among others — education, media, enterprise, and consulting across the board. What industry are you in?","Our client roster includes Dex Mumo Group, Zetech University, Nax Today, and Editon Consortium. A diverse range that shows we adapt well. Want to know more about any specific engagement?"],
+      start:["Getting started is simple:\n\n1️⃣ Tell us about your project — form below or WhatsApp\n2️⃣ We schedule a discovery call\n3️⃣ Clear proposal: scope, timeline, pricing\n4️⃣ We get to work 🚀\n\nNo pressure, no jargon. Ready?","Fastest way to start: hit the WhatsApp button on this page or fill the contact form below. We'll book a discovery call and come back with a clear plan."],
+      timeline:["Rough timelines by project:\n\n🌐 Website: 2–4 weeks\n📱 Mobile App: 6–16 weeks\n🤖 AI Tool: 3–10 weeks\n📊 Data Dashboard: 2–6 weeks\n📣 Ad Campaigns: live in 48–72 hours\n\nWe always confirm before work begins. What are you building?","Simple site → 2–3 weeks. Full platform → 6–12 weeks. Mobile app → 8–16 weeks. Ad campaign → days to go live. What's your deadline?"],
+      startup:["Absolutely — we love working with startups and early-stage businesses. Lean budgets, tight timelines, no problem. We scope what you actually need right now. What stage are you at?","Startups are our kind of challenge. Fast, focused, lean. Tell me about what you're building."],
+      maintenance:["Yes — ongoing support and maintenance is part of how we work with most clients post-launch. Bug fixes, updates, new features, performance monitoring. Is this for something we'd build or an existing product?","Post-launch support is built into most of our engagements. Monthly retainers available. What would you need covered?"],
+      stack:["What we build on:\n\n💻 Frontend: Next.js, React\n⚙️ Backend: Node.js, Python\n🗄️ Database: PostgreSQL, Supabase\n☁️ Cloud: AWS, Vercel, GCP\n📱 Mobile: React Native, Swift, Kotlin\n🤖 AI: Claude API, OpenAI, LangChain\n\nWe pick the right tool for the job."],
+      whoami:["I'm Nova — Corestack Technologies' AI assistant. Trained on everything Corestack does so I can answer fast. For proposals and detailed conversations the human team takes over. What can I help with?","Nova here! An AI assistant built by Corestack. Not human, but pretty good at this. 😄 What would you like to know?"],
+      thanks:["You're welcome! 😊 Anything else I can help with?","Happy to help! What else is on your mind?","Glad that was useful! Feel free to ask anything else."],
+      bye:["Take care! 👋 If you ever need us, we're a message away. Hope to work with you soon!","Goodbye! Come back anytime — and the WhatsApp button is always there. 🚀"],
+      human:["Totally understandable!\n\n📧 hello@corestack.co.ke\n📱 WhatsApp: +254 700 000 000\n\nThe team usually responds within a few hours during business hours. 🙌"],
+      fallback:["I want to make sure I give you the right answer — could you rephrase? I can help with services, pricing, timelines, getting started, or contacting the team.","Hmm, not quite sure I caught that. Try asking about our services, pricing, how to get started, or our timeline. What are you really after?","Could you tell me a bit more? I'm here to help with anything Corestack-related. 😊"]
+    };
+
+    /* ── Intent keywords ── */
+    const intents = {
+      greet:       ['hello','hi ','hey ','good morning','good afternoon','good evening','howdy','sup','hola'],
+      services:    ['service','what do you do','what can you','offer','capabilit','help me with','everything you','tell me about corestack'],
+      web:         ['website','web app','web design','web develop','landing page','ecommerce','e-commerce','full stack','fullstack','online store','build a site','build me a site'],
+      mobile:      ['mobile','app ','ios','android','phone app','cross-platform','flutter','react native','smartphone','tablet','build me an app'],
+      ai:          ['ai ','artificial intelligence','machine learning','ml ','chatbot','automation','workflow','automate','intelligent','bot ','openai','gpt','nova'],
+      data:        ['data','analytics','dashboard','report','insight','visuali','metrics','kpi','business intelligence'],
+      ict:         ['cloud','ict','infrastructure','consult','server','devops','digital transformation','it support','network'],
+      ads:         ['ads','advertising','campaign','meta ads','google ads','tiktok','linkedin','facebook ads','paid media','performance marketing','ppc','run my ads','boost'],
+      pricing:     ['price','cost','how much','pricing','quote','budget','charge','fee','rate','afford','expensive','cheap','ksh','kes'],
+      contact:     ['contact','reach','whatsapp','email','call','phone','get in touch','talk to','speak to','message you'],
+      location:    ['where','location','nairobi','kenya','based','office','address','find you'],
+      clients:     ['client','customer','portfolio','who have you','brands','worked with','case study','reference','previous work'],
+      start:       ['get started','how to start','first step','process','onboard','work with you','begin','kick off','enquire','inquiry'],
+      timeline:    ['how long','time','duration','deadline','timeline','when ready','days','weeks','months','delivery'],
+      startup:     ['startup','small business','sme','early stage','new company','solo','entrepreneur','founder','mvp'],
+      maintenance: ['maintain','support','ongoing','update','after launch','post launch','retainer','manage'],
+      stack:       ['tech stack','technology','tools','framework','language','build with','nextjs','react','node','python','supabase'],
+      whoami:      ['who are you','what are you','your name','about you','are you human','are you a bot','ai assistant'],
+      thanks:      ['thank','thanks','appreciate','helpful','great job','awesome','amazing','brilliant','love it','perfect','excellent'],
+      bye:         ['bye','goodbye','cya','see you','later','take care','ttyl','good night'],
+      human:       ['human','real person','agent','talk to someone','speak to a person','staff','team member']
+    };
+
+    function matchIntent(input) {
+      const lower = input.toLowerCase();
+      let best = 'fallback', score = 0;
+      for (const [intent, kws] of Object.entries(intents)) {
+        let s = 0;
+        for (const kw of kws) { if (lower.includes(kw)) s += kw.length; }
+        if (s > score) { score = s; best = intent; }
+      }
+      return score > 0 ? best : 'fallback';
+    }
+
+    function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
+    function ts() {
+      return new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+    }
+
+    function addMsg(sender, text) {
+      const wrap = document.createElement('div');
+      wrap.className = `nova-msg nova-msg-${sender}`;
+      const bubble = document.createElement('div');
+      bubble.className = 'nova-bubble';
+      bubble.innerHTML = text.replace(/\n/g, '<br>');
+      const time = document.createElement('div');
+      time.className = 'nova-time';
+      time.textContent = ts();
+      wrap.appendChild(bubble);
+      wrap.appendChild(time);
+      novaMsgs.appendChild(wrap);
+      novaMsgs.scrollTop = novaMsgs.scrollHeight;
+    }
+
+    function showTyping() {
+      const wrap = document.createElement('div');
+      wrap.className = 'nova-msg nova-msg-nova nova-typing';
+      wrap.id = 'nova-typing';
+      wrap.innerHTML = '<div class="nova-bubble"><span></span><span></span><span></span></div>';
+      novaMsgs.appendChild(wrap);
+      novaMsgs.scrollTop = novaMsgs.scrollHeight;
+      return wrap;
+    }
+
+    function showChips() {
+      const chips = ['What services do you offer?','How much does it cost?','Build me a website','Run my ads','How do I get started?','How long will it take?'];
+      novaChips.innerHTML = chips.map(c => `<button class="nova-chip">${c}</button>`).join('');
+      novaChips.style.display = 'flex';
+      novaChips.querySelectorAll('.nova-chip').forEach(btn => {
+        btn.addEventListener('click', () => {
+          chipsDismissed = true;
+          novaChips.style.display = 'none';
+          novaChips.innerHTML = '';
+          send(btn.textContent);
+        });
+      });
+    }
+
+    function send(text) {
+      text = text.trim();
+      if (!text) return;
+      addMsg('user', text);
+      novaInput.value = '';
+      const typing = showTyping();
+      const intent = matchIntent(text);
+      const reply  = pick(R[intent] || R.fallback);
+      const delay  = Math.min(1600, 550 + text.length * 4);
+      setTimeout(() => { typing.remove(); addMsg('nova', reply); }, delay);
+    }
+
+    function toggleNova() {
+      isOpen = !isOpen;
+      novaWin.classList.toggle('open', isOpen);
+      novaIcon.innerHTML = isOpen ? CLOSE_SVG : CHAT_SVG;
+      if (isOpen && !greeted) {
+        greeted = true;
+        addMsg('nova', pick(R.greet));
+        if (!chipsDismissed) setTimeout(showChips, 400);
+      }
+    }
+
+    novaBtn.addEventListener('click', toggleNova);
+    novaClose.addEventListener('click', toggleNova);
+    novaSend.addEventListener('click', () => send(novaInput.value));
+    novaInput.addEventListener('keypress', e => { if (e.key === 'Enter') send(novaInput.value); });
+  })();
+</script>
+</body>
+</html>
