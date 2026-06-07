@@ -826,42 +826,47 @@
     ob.observe(statsEl);
   })();
 
-  /* ── CONTACT FORM → local Express backend ── */
+  /* ── CONTACT FORM → Supabase REST API (direct, no backend) ── */
   (function() {
-    const ENDPOINT = '/api/contact';
-    const form    = document.getElementById('contact-form');
-    const btn     = document.getElementById('form-btn');
-    const msg     = document.getElementById('form-msg');
+    const SUPABASE_URL = 'https://hyfotqpttdgznfjzppvc.supabase.co/rest/v1/leads';
+    const SUPABASE_KEY = 'sb_publishable_2lN1e_eazz1G5_DAHuiAOQ_oLBfQpcZ';
+    const form = document.getElementById('contact-form');
+    const btn  = document.getElementById('form-btn');
+    const msg  = document.getElementById('form-msg');
     form.addEventListener('submit', async e => {
       e.preventDefault();
       btn.textContent = 'Sending…'; btn.disabled = true; msg.textContent = '';
-      // Collect form values into a plain object (server expects JSON)
       const payload = {
-        name:    document.getElementById('f-name').value,
-        email:   document.getElementById('f-email').value,
-        company: document.getElementById('f-company').value,
-        service: document.getElementById('f-service').value,
-        message: document.getElementById('f-msg').value,
+        name:    document.getElementById('f-name').value.trim(),
+        email:   document.getElementById('f-email').value.trim(),
+        company: document.getElementById('f-company').value.trim() || null,
+        service: document.getElementById('f-service').value.trim() || null,
+        message: document.getElementById('f-msg').value.trim() || null,
       };
       try {
-        const res  = await fetch(ENDPOINT, {
+        if (!payload.name) throw new Error('Name is required.');
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(payload.email)) throw new Error('A valid email address is required.');
+        const res = await fetch(SUPABASE_URL, {
           method:  'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body:    JSON.stringify(payload),
+          headers: {
+            'Content-Type':  'application/json',
+            'apikey':        SUPABASE_KEY,
+            'Authorization': 'Bearer ' + SUPABASE_KEY,
+            'Prefer':        'return=minimal',
+          },
+          body: JSON.stringify(payload),
         });
-        const data = await res.json();
         if (res.ok) {
           msg.style.color = 'var(--accent)';
-          msg.textContent = data.message || "Thanks! We'll be in touch shortly.";
+          msg.textContent = "Thanks! We'll be in touch shortly.";
           form.reset();
         } else {
-          throw new Error(data.error || 'Server error');
+          const text = await res.text();
+          throw new Error(text || 'Submission failed.');
         }
       } catch (err) {
         msg.style.color = '#ff6b6b';
-        msg.textContent = err.message === 'Server error'
-          ? 'Something went wrong — email us at hello@corestack.co.ke'
-          : err.message;
+        msg.textContent = err.message || 'Something went wrong — email us at hello@corestack.co.ke';
       } finally { btn.textContent = 'Send enquiry'; btn.disabled = false; }
     });
   })();
