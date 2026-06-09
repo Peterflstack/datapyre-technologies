@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Corestack Admin — Login</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..60,400;12..60,600;12..60,700;12..60,800&family=Hanken+Grotesk:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --ink:          #0a1733;
+    --ink-soft:     #112248;
+    --ink-line:     #20335c;
+    --paper:        #eaf0fb;
+    --accent:       #2e8bff;
+    --accent-bright:#2ca6f9;
+    --gold:         #e18e26;
+    --muted:        #8ea0c0;
+    --radius:       14px;
+    --danger:       #e53935;
+    --success:      #00c87a;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Hanken Grotesk', sans-serif;
+    background: var(--ink);
+    color: var(--paper);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  /* Cinematic grid background */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image:
+      linear-gradient(var(--ink-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--ink-line) 1px, transparent 1px);
+    background-size: 48px 48px;
+    opacity: 0.4;
+    z-index: 0;
+  }
+
+  /* Glow orbs */
+  .orb {
+    position: fixed; border-radius: 50%; pointer-events: none; z-index: 0;
+    filter: blur(80px); opacity: 0.18;
+  }
+  .orb-1 { width: 500px; height: 500px; background: var(--accent); top: -150px; left: -150px; }
+  .orb-2 { width: 400px; height: 400px; background: var(--gold); bottom: -100px; right: -100px; }
+
+  .login-wrap {
+    position: relative; z-index: 1;
+    width: 100%; max-width: 420px;
+    padding: 20px;
+  }
+
+  /* Logo */
+  .logo-block {
+    text-align: center;
+    margin-bottom: 36px;
+  }
+  .logo-icon {
+    width: 52px; height: 52px;
+    background: var(--accent);
+    border-radius: 14px;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-family: 'Bricolage Grotesque'; font-weight: 800; font-size: 22px;
+    color: #061634;
+    margin-bottom: 16px;
+    box-shadow: 0 8px 32px -8px rgba(46,139,255,0.6);
+  }
+  .logo-block h1 {
+    font-family: 'Bricolage Grotesque'; font-size: 24px; font-weight: 700;
+  }
+  .logo-block p { font-size: 13px; color: var(--muted); margin-top: 4px; }
+
+  /* Card */
+  .card {
+    background: var(--ink-soft);
+    border: 1px solid var(--ink-line);
+    border-radius: 20px;
+    padding: 36px;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 32px 80px -20px rgba(0,0,0,0.5);
+  }
+  .card h2 {
+    font-family: 'Bricolage Grotesque'; font-size: 22px; font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .card .subtitle { font-size: 14px; color: var(--muted); margin-bottom: 28px; }
+
+  /* Form */
+  .field { margin-bottom: 18px; }
+  .field label {
+    display: block; font-size: 12px; text-transform: uppercase;
+    letter-spacing: 0.08em; color: var(--muted); margin-bottom: 8px;
+  }
+  .field input {
+    width: 100%; padding: 12px 16px;
+    background: rgba(10,23,51,0.6);
+    border: 1px solid var(--ink-line);
+    border-radius: 10px;
+    color: var(--paper);
+    font-family: 'Hanken Grotesk'; font-size: 15px;
+    transition: border-color 0.2s;
+  }
+  .field input:focus { outline: none; border-color: var(--accent); }
+  .field input::placeholder { color: rgba(142,160,192,0.4); }
+
+  .btn-login {
+    width: 100%; padding: 13px;
+    background: var(--accent); color: #061634;
+    border: none; border-radius: 10px;
+    font-family: 'Hanken Grotesk'; font-size: 15px; font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    margin-top: 8px;
+  }
+  .btn-login:hover { background: var(--accent-bright); transform: translateY(-2px); box-shadow: 0 12px 32px -8px rgba(46,139,255,0.5); }
+  .btn-login:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+  .error-msg {
+    background: rgba(229,57,53,0.1);
+    border: 1px solid rgba(229,57,53,0.3);
+    color: #e57373;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    margin-bottom: 16px;
+    display: none;
+  }
+  .error-msg.show { display: block; }
+
+  .back-link {
+    display: block; text-align: center;
+    font-size: 13px; color: var(--muted);
+    margin-top: 20px;
+    transition: color 0.2s;
+  }
+  .back-link:hover { color: var(--paper); }
+
+  .spinner {
+    width: 16px; height: 16px;
+    border: 2px solid rgba(6,22,52,0.4);
+    border-top-color: #061634;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    display: none;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+</style>
+</head>
+<body>
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+
+<div class="login-wrap">
+  <div class="logo-block">
+    <div class="logo-icon">C</div>
+    <h1>Corestack</h1>
+    <p>Content Management System</p>
+  </div>
+
+  <div class="card">
+    <h2>Welcome back</h2>
+    <p class="subtitle">Sign in to manage your site</p>
+
+    <div class="error-msg" id="error-msg"></div>
+
+    <form id="login-form">
+      <div class="field">
+        <label for="email">Email address</label>
+        <input type="email" id="email" placeholder="admin@corestack.co.ke" required autocomplete="email"/>
+      </div>
+      <div class="field">
+        <label for="password">Password</label>
+        <input type="password" id="password" placeholder="••••••••••" required autocomplete="current-password"/>
+      </div>
+      <button type="submit" class="btn-login" id="login-btn">
+        <span id="btn-text">Sign in</span>
+        <div class="spinner" id="spinner"></div>
+      </button>
+    </form>
+  </div>
+
+  <a href="../index.html" class="back-link">← Back to live site</a>
+</div>
+
+<script>
+  // If already authenticated, skip to dashboard
+  if (localStorage.getItem('cs_admin_session')) {
+    window.location.replace('dashboard.html');
+  }
+
+  const CREDS = { email: 'admin@corestack.co.ke', password: 'corestack2026' };
+
+  document.getElementById('login-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const email    = document.getElementById('email').value.trim().toLowerCase();
+    const password = document.getElementById('password').value;
+    const errEl    = document.getElementById('error-msg');
+    const btn      = document.getElementById('login-btn');
+    const spinner  = document.getElementById('spinner');
+    const btnText  = document.getElementById('btn-text');
+
+    errEl.classList.remove('show');
+    btn.disabled = true;
+    spinner.style.display = 'block';
+    btnText.textContent = 'Signing in…';
+
+    // Simulate async auth (replace with real auth if needed)
+    setTimeout(() => {
+      if (email === CREDS.email && password === CREDS.password) {
+        localStorage.setItem('cs_admin_session', JSON.stringify({
+          email,
+          name: 'Admin',
+          role: 'superadmin',
+          loggedAt: Date.now()
+        }));
+        window.location.replace('dashboard.html');
+      } else {
+        btn.disabled = false;
+        spinner.style.display = 'none';
+        btnText.textContent = 'Sign in';
+        errEl.textContent = 'Invalid email or password. Please try again.';
+        errEl.classList.add('show');
+        document.getElementById('password').value = '';
+        document.getElementById('password').focus();
+      }
+    }, 700);
+  });
+</script>
+</body>
+</html>
