@@ -534,6 +534,67 @@
     .stats { gap:40px; }
     body::after { background-size:44px 44px; }
   }
+
+  /* ── BLOG SECTION (homepage) ── */
+  #blog { padding: 110px 0; }
+  .blog-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+    margin-bottom: 56px;
+  }
+  .blog-card {
+    border: 1px solid var(--ink-line);
+    border-radius: var(--radius);
+    overflow: hidden;
+    display: flex; flex-direction: column;
+    background: var(--ink-soft);
+    transition: transform 0.35s var(--ease), border-color 0.3s, box-shadow 0.35s;
+    cursor: pointer;
+    position: relative;
+  }
+  .blog-card::after {
+    content: '';
+    position: absolute; inset: 0; border-radius: var(--radius);
+    background: radial-gradient(circle at 60% 0%, rgba(46,139,255,0.07), transparent 70%);
+    opacity: 0; transition: opacity 0.4s; pointer-events: none;
+  }
+  .blog-card:hover { border-color: var(--accent); transform: translateY(-8px) scale(1.02); box-shadow: 0 26px 60px -18px rgba(46,139,255,0.45); }
+  .blog-card:hover::after { opacity: 1; }
+  .blog-card-img { width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block; background: var(--ink-line); }
+  .blog-card-img-placeholder { width: 100%; aspect-ratio: 16/9; background: linear-gradient(135deg, rgba(17,34,72,0.8) 0%, rgba(32,51,92,0.9) 100%); display: flex; align-items: center; justify-content: center; }
+  .blog-card-img-placeholder svg { width: 36px; height: 36px; opacity: 0.25; }
+  .blog-card-body { padding: 28px 30px 30px; flex: 1; display: flex; flex-direction: column; }
+  .blog-cat {
+    font-size: 10px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--accent); background: rgba(46,139,255,0.1);
+    border: 1px solid rgba(46,139,255,0.22);
+    border-radius: 100px; padding: 4px 12px;
+    display: inline-block; align-self: flex-start; margin-bottom: 16px;
+  }
+  .blog-card h3 { font-size: 19px; font-weight: 700; line-height: 1.3; margin-bottom: 12px; color: var(--paper); }
+  .blog-excerpt { font-size: 14px; color: var(--muted); line-height: 1.65; flex: 1;
+    display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 24px; }
+  .blog-card-foot { display: flex; align-items: center; justify-content: space-between; margin-top: auto; padding-top: 18px; border-top: 1px solid var(--ink-line); }
+  .blog-date { font-size: 12px; color: var(--muted); }
+  .blog-read {
+    font-size: 13px; font-weight: 600; color: var(--accent);
+    display: inline-flex; align-items: center; gap: 5px;
+    transition: gap 0.2s var(--ease), color 0.2s;
+  }
+  .blog-read:hover { color: var(--accent-bright); gap: 9px; }
+  .blog-view-all { text-align: center; }
+  .btn-outline {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: 'Hanken Grotesk'; font-weight: 600; font-size: 15px;
+    color: var(--paper); border: 1px solid var(--ink-line);
+    border-radius: 100px; padding: 13px 32px; cursor: pointer;
+    background: transparent;
+    transition: border-color 0.25s, color 0.25s, transform 0.3s var(--pop);
+  }
+  .btn-outline:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-3px); }
+  @media (max-width: 900px) { .blog-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 560px) { .blog-grid { grid-template-columns: 1fr; } }
 </style>
 </head>
 <body>
@@ -547,7 +608,7 @@
       <a href="#services">What we do</a>
       <a href="#work">Work</a>
       <a href="#about">About</a>
-      <a href="blog.html">Blog</a>
+      <a href="#blog">Blog</a>
       <a href="#contact" class="btn">Start a project</a>
     </div>
     <button class="menu-toggle" id="menu-toggle" aria-label="Open navigation menu" aria-expanded="false">≡</button>
@@ -657,6 +718,20 @@
     <div class="services">
       <div class="svc reveal"><div class="svc-num">Education</div><h3>Zetech University</h3><p>Integrated Meta and Google advertising for the May intake, plus event campaigns, creative, and executive reporting.</p></div>
       <div class="svc reveal"><div class="svc-num">Multi-sector</div><h3>Dex Mumo Group, Nax Today &amp; Editon Consortium</h3><p>Digital strategy, web presence, and brand growth for a portfolio of Kenyan businesses spanning group services, digital media, and publishing.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="blog">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="eyebrow">From the team</div>
+      <h2>Latest from our blog.</h2>
+      <p>Thinking on performance, technology, and building digital systems that last.</p>
+    </div>
+    <div class="blog-grid" id="blog-grid" style="display:none"></div>
+    <div id="blog-view-all" class="blog-view-all" style="display:none">
+      <a href="blog.html" class="btn-outline">View all posts ›</a>
     </div>
   </div>
 </section>
@@ -1205,6 +1280,59 @@
   }
   document.getElementById('modal-backdrop').addEventListener('click', closeModal);
   document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+  /* ── BLOG SECTION ── */
+  (function() {
+    const SUPA_BASE = 'https://hyfotqpttdgznfjzppvc.supabase.co/rest/v1';
+    const SUPA_KEY  = 'sb_publishable_2lN1e_eazz1G5_DAHuiAOQ_oLBfQpcZ';
+
+    function blogFmtDate(iso) {
+      if (!iso) return '';
+      return new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+    }
+
+    function blogCard(p) {
+      const imgHTML = p.cover_image
+        ? `<img src="${p.cover_image}" alt="${p.title}" class="blog-card-img" loading="lazy"/>`
+        : `<div class="blog-card-img-placeholder"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>`;
+      const catHTML = p.category
+        ? `<span class="blog-cat">${p.category}</span>`
+        : '';
+      const slug = encodeURIComponent(p.slug || '');
+      return `
+        <article class="blog-card reveal" onclick="location.href='blog-post.html?slug=${slug}'">
+          ${imgHTML}
+          <div class="blog-card-body">
+            ${catHTML}
+            <h3>${p.title || ''}</h3>
+            <p class="blog-excerpt">${p.excerpt || ''}</p>
+            <div class="blog-card-foot">
+              <span class="blog-date">${blogFmtDate(p.published_at || p.created_at)}</span>
+              <a href="blog-post.html?slug=${slug}" class="blog-read" onclick="event.stopPropagation()">Read more ›</a>
+            </div>
+          </div>
+        </article>`;
+    }
+
+    fetch(`${SUPA_BASE}/posts?select=id,title,slug,excerpt,cover_image,category,published_at,created_at&status=eq.published&order=published_at.desc.nullslast&limit=3`, {
+      headers: { 'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + SUPA_KEY }
+    })
+    .then(r => r.json())
+    .then(posts => {
+      if (!Array.isArray(posts) || !posts.length) return;
+      const grid = document.getElementById('blog-grid');
+      grid.innerHTML = posts.map(blogCard).join('');
+      grid.style.display = 'grid';
+      document.getElementById('blog-view-all').style.display = 'block';
+      // trigger reveal for new cards
+      if (typeof io !== 'undefined') {
+        grid.querySelectorAll('.reveal').forEach(el => io.observe(el));
+      } else {
+        grid.querySelectorAll('.reveal').forEach(el => el.classList.add('shown'));
+      }
+    })
+    .catch(() => {}); // silent — blank space shown on error
+  })();
 </script>
 
 <!-- ── MODAL BACKDROP ── -->
