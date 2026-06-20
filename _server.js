@@ -25,7 +25,7 @@ app.use(cors());
 
 // Serve static files (index.html, icon, etc.) so you can open the site via
 // http://localhost:3000 instead of the file:// protocol
-app.use(express.static(__dirname));
+app.use(express.static(__dirname, { extensions: ['html'] }));
 
 // ── POST /api/contact ─────────────────────────────────────────────────────────
 // Receives the contact form, validates it, and inserts a row into Supabase.

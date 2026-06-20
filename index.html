@@ -266,37 +266,13 @@
   .copyright { margin-top: 56px; padding-top: 28px; border-top: 1px solid var(--ink-line); display: flex; justify-content: space-between; color: var(--muted); font-size: 13px; flex-wrap: wrap; gap: 10px; }
   .copyright .tagline { color: var(--gold); }
 
-  /* ── MODALS ── */
-  .modal-backdrop { position: fixed; inset: 0; z-index: 9000; background: rgba(4,10,28,0.76); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); opacity: 0; pointer-events: none; transition: opacity 0.38s var(--ease); }
-  .modal-backdrop.open { opacity: 1; pointer-events: all; }
-  .modal-sheet { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%) translateY(110%); z-index: 9001; width: min(780px, 96vw); max-height: 86vh; background: rgba(8,16,44,0.97); backdrop-filter: blur(28px) saturate(170%); -webkit-backdrop-filter: blur(28px) saturate(170%); border: 1px solid rgba(46,139,255,0.16); border-bottom: none; border-radius: 24px 24px 0 0; box-shadow: 0 -24px 80px -10px rgba(46,139,255,0.12), 0 -4px 48px rgba(0,0,0,0.65); display: flex; flex-direction: column; overflow: hidden; transition: transform 0.58s cubic-bezier(0.34,1.56,0.64,1), opacity 0.35s var(--ease); opacity: 0; }
-  .modal-sheet.open { transform: translateX(-50%) translateY(0); opacity: 1; }
-  .modal-header { display: flex; align-items: center; justify-content: space-between; padding: 30px 38px 24px; border-bottom: 1px solid rgba(46,139,255,0.1); flex-shrink: 0; background: linear-gradient(135deg, rgba(46,139,255,0.04), transparent); }
-  .modal-header h2 { font-family: 'Jost'; font-size: 24px; color: var(--accent); margin: 0; }
-  .modal-close { width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.09); color: var(--muted); font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s, color 0.2s, border-color 0.2s, transform 0.25s var(--pop); flex-shrink: 0; }
-  .modal-close:hover { background: rgba(46,139,255,0.15); color: var(--paper); border-color: var(--accent); transform: scale(1.1) rotate(90deg); }
-  .modal-body { overflow-y: auto; padding: 36px 38px 48px; flex: 1; }
-  .modal-body::-webkit-scrollbar { width: 3px; }
-  .modal-body::-webkit-scrollbar-thumb { background: var(--ink-line); border-radius: 3px; }
-  .modal-eyebrow { font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); margin-bottom: 22px; display: block; }
-  .modal-body h3 { font-family: 'Jost'; font-size: 18px; color: var(--accent-bright); margin: 32px 0 12px; }
-  .modal-body h3:first-of-type { margin-top: 0; }
-  .modal-body p { color: var(--muted); font-size: 15.5px; line-height: 1.82; margin-bottom: 18px; }
-  .modal-body strong { color: var(--paper); font-weight: 600; }
-  .modal-divider { height: 1px; background: linear-gradient(90deg, var(--accent-dim), transparent); margin: 28px 0; opacity: 0.35; }
-
   @media (max-width: 768px) {
     .foot-top { grid-template-columns: 1fr 1fr; gap: 36px; }
     .foot-brand { grid-column: span 2; }
-    .modal-header { padding: 24px 28px 20px; }
-    .modal-body { padding: 28px 28px 40px; }
   }
   @media (max-width: 480px) {
     .foot-top { grid-template-columns: 1fr 1fr; gap: 28px; }
     .foot-brand { grid-column: span 2; }
-    .modal-sheet { width: 100vw; border-radius: 20px 20px 0 0; }
-    .modal-header { padding: 20px 20px 16px; }
-    .modal-body { padding: 22px 20px 36px; }
   }
 
   /* ── BACK TO TOP (bottom-left, always visible) ── */
@@ -943,11 +919,11 @@
       <div class="foot-col">
         <h4>Company</h4>
         <ul>
-          <li><button onclick="openModal('about-us')">About Us</button></li>
-          <li><button onclick="openModal('our-work')">Our Work</button></li>
-          <li><button onclick="openModal('case-studies')">Case Studies</button></li>
-          <li><button onclick="openModal('careers')">Careers</button></li>
-          <li><button onclick="openModal('press-media')">Press &amp; Media</button></li>
+          <li><a href="/about">About Us</a></li>
+          <li><a href="/work">Our Work</a></li>
+          <li><a href="/case-studies">Case Studies</a></li>
+          <li><a href="/careers">Careers</a></li>
+          <li><a href="/press">Press &amp; Media</a></li>
         </ul>
       </div>
 
@@ -955,11 +931,13 @@
       <div class="foot-col">
         <h4>Connect</h4>
         <ul>
+          <li><a href="/#contact">Start a Project</a></li>
           <li><a href="#contact">Contact Us</a></li>
           <li><a href="https://wa.me/254700000000" target="_blank" rel="noopener">WhatsApp</a></li>
           <li><a href="https://linkedin.com/company/datapyre-technologies" target="_blank" rel="noopener">LinkedIn</a></li>
           <li><a href="https://x.com/datapyretech" target="_blank" rel="noopener">Twitter / X</a></li>
           <li><a href="https://github.com/Peterflstack" target="_blank" rel="noopener">GitHub</a></li>
+          <li><a href="/privacy">Privacy Policy</a></li>
         </ul>
       </div>
     </div>
@@ -1408,25 +1386,6 @@
     novaInput.addEventListener('keypress', e => { if (e.key === 'Enter') send(novaInput.value); });
   })();
 
-  /* ── MODALS ── */
-  function openModal(id) {
-    const backdrop = document.getElementById('modal-backdrop');
-    const sheet = document.getElementById('modal-' + id);
-    if (!sheet) return;
-    // Close any open modal first
-    document.querySelectorAll('.modal-sheet.open').forEach(m => m.classList.remove('open'));
-    backdrop.classList.add('open');
-    sheet.classList.add('open');
-    document.body.style.overflow = 'hidden';
-  }
-  function closeModal() {
-    document.querySelectorAll('.modal-sheet.open').forEach(m => m.classList.remove('open'));
-    document.getElementById('modal-backdrop').classList.remove('open');
-    document.body.style.overflow = '';
-  }
-  document.getElementById('modal-backdrop').addEventListener('click', closeModal);
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
-
   /* ── BLOG SECTION ── */
   (function() {
     const SUPA_BASE = 'https://hyfotqpttdgznfjzppvc.supabase.co/rest/v1';
@@ -1482,120 +1441,6 @@
   })();
 
 </script>
-
-<!-- ── MODAL BACKDROP ── -->
-<div class="modal-backdrop" id="modal-backdrop"></div>
-
-<!-- ── MODAL: ABOUT US ── -->
-<div class="modal-sheet" id="modal-about-us" role="dialog" aria-modal="true" aria-labelledby="modal-about-us-title">
-  <div class="modal-header">
-    <h2 id="modal-about-us-title">About Us</h2>
-    <button class="modal-close" onclick="closeModal()" aria-label="Close">&#x2715;</button>
-  </div>
-  <div class="modal-body">
-    <span class="modal-eyebrow">Who we are</span>
-    <h3>Built at the Intersection of Technology and Growth</h3>
-    <p><strong>Datapyre Technologies</strong> is a Nairobi-based digital technology company working at the intersection of performance marketing, intelligent software, and enterprise infrastructure. We exist to help ambitious businesses across East Africa build competitive advantages through technology — not as a cost centre, but as a growth engine.</p>
-    <p>Founded with the conviction that African brands deserve the same quality of digital execution as any global company, Datapyre was built to close that gap. We combine deep technical capability with commercial thinking, delivering integrated solutions that span advertising, development, automation, analytics, and cloud infrastructure.</p>
-    <div class="modal-divider"></div>
-    <h3>Our Philosophy</h3>
-    <p>We believe great technology work is inseparable from great business strategy. Every campaign we run, every system we build, and every workflow we automate is designed with a specific commercial outcome in mind. We do not offer isolated services — we build connected stacks that compound in value over time.</p>
-    <p>The name <strong>Datapyre</strong> reflects this thinking. A stack is not a collection of parts; it is an architecture. Each layer — advertising, web, AI, data, infrastructure — is designed to reinforce every other layer, creating leverage that single-service providers cannot match.</p>
-    <div class="modal-divider"></div>
-    <h3>Our People</h3>
-    <p>Our team is made up of strategists, engineers, designers, and analysts who have worked across agency, startup, and enterprise environments. We are practitioners first — we build, run, and optimise the same kinds of systems we recommend to clients. That credibility is the foundation of every client relationship we maintain.</p>
-    <p>We are headquartered in Nairobi, Kenya, with the capability to serve clients across East and Central Africa. Our work ethic is rigorous, our timelines are honest, and our standards are uncompromising.</p>
-  </div>
-</div>
-
-<!-- ── MODAL: OUR WORK ── -->
-<div class="modal-sheet" id="modal-our-work" role="dialog" aria-modal="true" aria-labelledby="modal-our-work-title">
-  <div class="modal-header">
-    <h2 id="modal-our-work-title">Our Work</h2>
-    <button class="modal-close" onclick="closeModal()" aria-label="Close">&#x2715;</button>
-  </div>
-  <div class="modal-body">
-    <span class="modal-eyebrow">Selected projects</span>
-    <h3>Performance Advertising Campaigns</h3>
-    <p>We have planned, executed, and optimised paid media campaigns across Meta, Google, TikTok, and programmatic channels for brands in e-commerce, financial services, real estate, hospitality, and consumer goods. Our campaigns are built on rigorous audience research, creative testing frameworks, and conversion-focused landing experiences — with full-funnel attribution from first click to sale.</p>
-    <p>Our advertising work consistently delivers measurable improvements in customer acquisition cost, return on ad spend, and brand visibility metrics. We do not chase vanity metrics; we optimise for the numbers that appear on your profit and loss statement.</p>
-    <div class="modal-divider"></div>
-    <h3>Web &amp; Product Development</h3>
-    <p>From high-performance marketing websites to complex web applications and internal tools, our development team builds digital products that are fast, accessible, and built to scale. We work across the full stack — React and Next.js on the frontend, Node.js and serverless architecture on the backend — with a strong emphasis on design quality and conversion optimisation.</p>
-    <p>Recent development projects include CRM-integrated lead capture platforms, e-commerce storefronts with custom checkout flows, and internal operations dashboards for mid-sized businesses. Every project is delivered with clean code, comprehensive documentation, and a structured handover process.</p>
-    <div class="modal-divider"></div>
-    <h3>AI &amp; Automation Deployments</h3>
-    <p>We have deployed AI-powered solutions for clients who needed to scale their operations without proportionally scaling their headcount. This has included intelligent chatbots for lead qualification, automated reporting pipelines, content generation workflows, and CRM automation sequences. Our implementations are practical, integrated with existing business systems, and designed to generate measurable efficiency gains within the first 90 days.</p>
-  </div>
-</div>
-
-<!-- ── MODAL: CASE STUDIES ── -->
-<div class="modal-sheet" id="modal-case-studies" role="dialog" aria-modal="true" aria-labelledby="modal-case-studies-title">
-  <div class="modal-header">
-    <h2 id="modal-case-studies-title">Case Studies</h2>
-    <button class="modal-close" onclick="closeModal()" aria-label="Close">&#x2715;</button>
-  </div>
-  <div class="modal-body">
-    <span class="modal-eyebrow">Results that matter</span>
-    <h3>E-Commerce Brand: 3.8× ROAS Improvement in 60 Days</h3>
-    <p>A Nairobi-based fashion retailer engaged Datapyre after struggling with inconsistent returns from their Meta advertising. We audited their full funnel — ads, landing pages, checkout flow, and attribution — and identified three critical failure points: broad audience targeting with no creative differentiation, a mobile checkout that lost 68% of sessions, and zero post-purchase retention activity.</p>
-    <p>We restructured their campaigns around creative testing frameworks, rebuilt their mobile product pages, and implemented an automated email and SMS retention sequence. Within 60 days, return on ad spend improved from 1.1× to 3.8×, average order value increased by 22%, and monthly repeat purchase rate doubled.</p>
-    <div class="modal-divider"></div>
-    <h3>Financial Services Firm: Lead Qualification at Scale with AI</h3>
-    <p>A financial services company needed to handle a large volume of inbound enquiries from their digital advertising without adding to their sales headcount. Datapyre designed and deployed an AI-powered lead qualification system that integrates with their existing CRM, engages inbound leads via WhatsApp within 90 seconds of form submission, qualifies prospects through a structured conversational flow, and routes high-intent leads directly to their sales team.</p>
-    <p><strong>Result:</strong> Sales team contact time with unqualified leads was reduced by 71%, while the conversion rate from lead to booked consultation improved by 44%.</p>
-    <div class="modal-divider"></div>
-    <h3>Hospitality Group: Integrated Digital Presence Rebuild</h3>
-    <p>A regional hospitality group with properties across three East African countries needed a cohesive digital presence that reflected their brand quality and drove direct bookings — reducing their dependency on OTA commissions. Datapyre delivered a complete rebuild: new website architecture with property-level landing pages, a direct booking integration, a content strategy framework, and an ongoing paid search and social campaign to drive demand.</p>
-    <p>Within the first quarter post-launch, direct booking revenue increased by 31%, and organic search visibility for their primary location terms improved significantly following a structured SEO programme.</p>
-  </div>
-</div>
-
-<!-- ── MODAL: CAREERS ── -->
-<div class="modal-sheet" id="modal-careers" role="dialog" aria-modal="true" aria-labelledby="modal-careers-title">
-  <div class="modal-header">
-    <h2 id="modal-careers-title">Careers</h2>
-    <button class="modal-close" onclick="closeModal()" aria-label="Close">&#x2715;</button>
-  </div>
-  <div class="modal-body">
-    <span class="modal-eyebrow">Join the team</span>
-    <h3>Build the Infrastructure of African Digital Growth</h3>
-    <p>At Datapyre, we are building one of East Africa's most capable digital technology practices. We are looking for people who combine technical rigour with commercial curiosity — people who care deeply about outcomes, not just outputs, and who want to do some of the most interesting and impactful technology work available on the continent.</p>
-    <p>We are a small, senior team. That means you will have real ownership of your work from day one. You will not spend your first year watching others; you will be designing, building, and running systems for real clients with real stakes. We expect a high standard and we hold ourselves to the same one.</p>
-    <div class="modal-divider"></div>
-    <h3>What We Look For</h3>
-    <p>Across every discipline — engineering, marketing, design, analytics — we look for the same core qualities: <strong>intellectual honesty</strong> (the ability to say what you actually think, not what sounds good), <strong>operational discipline</strong> (showing up reliably, meeting deadlines, communicating clearly), and <strong>genuine curiosity</strong> about how technology creates business value.</p>
-    <p>We are less interested in where you studied than in what you have built, shipped, or improved. We review portfolios and work samples seriously, and our hiring process is designed to assess real capability — not rehearsed answers.</p>
-    <div class="modal-divider"></div>
-    <h3>Current Areas of Interest</h3>
-    <p>We periodically bring on talent across: <strong>Performance Marketing Strategy</strong>, <strong>Full-Stack Web Development</strong>, <strong>AI &amp; Automation Engineering</strong>, <strong>Data Analytics &amp; Business Intelligence</strong>, and <strong>Client Strategy &amp; Account Management</strong>.</p>
-    <p>If you believe you have something exceptional to offer and want to work on problems that matter, reach out via our contact form or email us directly. We read every serious enquiry.</p>
-  </div>
-</div>
-
-<!-- ── MODAL: PRESS & MEDIA ── -->
-<div class="modal-sheet" id="modal-press-media" role="dialog" aria-modal="true" aria-labelledby="modal-press-media-title">
-  <div class="modal-header">
-    <h2 id="modal-press-media-title">Press &amp; Media</h2>
-    <button class="modal-close" onclick="closeModal()" aria-label="Close">&#x2715;</button>
-  </div>
-  <div class="modal-body">
-    <span class="modal-eyebrow">Media resources</span>
-    <h3>About Datapyre Technologies</h3>
-    <p><strong>Datapyre Technologies</strong> is a Nairobi-based digital technology company offering integrated services across performance advertising, web design and development, AI automation, data analytics, and ICT and cloud consultancy. The company works with growing brands across East Africa, providing the technical capabilities and strategic guidance typically associated with international agencies — delivered locally, with deep regional market understanding.</p>
-    <p>Datapyre was founded on the belief that African businesses should have access to world-class digital infrastructure and marketing capability, regardless of their size or sector. The company's name reflects its core philosophy: that technology works best when its layers are architectured to work together, each one amplifying the impact of the others.</p>
-    <div class="modal-divider"></div>
-    <h3>Key Facts</h3>
-    <p><strong>Headquarters:</strong> Nairobi, Kenya<br/>
-    <strong>Service area:</strong> East and Central Africa<br/>
-    <strong>Founded:</strong> 2024<br/>
-    <strong>Core disciplines:</strong> Performance advertising, web development, AI &amp; automation, data analytics, ICT &amp; cloud consultancy</p>
-    <div class="modal-divider"></div>
-    <h3>Media Enquiries</h3>
-    <p>For press enquiries, interview requests, partnership discussions, or media assets including brand guidelines and executive photography, please reach out through our contact form or connect with us directly on LinkedIn. We aim to respond to all media enquiries within one business day.</p>
-    <p>We welcome opportunities to speak on topics including the state of digital marketing in East Africa, the adoption of AI automation in emerging markets, the future of e-commerce infrastructure on the continent, and technology's role in unlocking growth for African businesses.</p>
-  </div>
-</div>
 
 </body>
 </html>
