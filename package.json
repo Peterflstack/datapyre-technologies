@@ -1,9 +1,10 @@
-{
-  "name": "corestack-website",
+﻿{
+  "name": "datapyre-website",
   "version": "1.0.0",
-  "description": "Corestack Technologies website with serverless API",
+  "description": "Datapyre Technologies website with serverless API",
   "scripts": {
-    "dev": "nodemon server.js"
+    "start": "node _server.js",
+    "dev": "nodemon _server.js"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.49.4",

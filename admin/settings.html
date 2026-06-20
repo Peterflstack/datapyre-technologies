@@ -1,23 +1,23 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Settings — Corestack Admin</title>
+<title>Settings — Datapyre Admin</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..60,400;12..60,600;12..60,700;12..60,800&family=Hanken+Grotesk:wght@400;500;600&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Afacad:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;0,9..144,800;1,9..144,400;1,9..144,700&family=Jost:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet"/>
 <style>
   :root{--ink:#0a1733;--ink-soft:#112248;--ink-line:#20335c;--paper:#eaf0fb;--accent:#2e8bff;--accent-bright:#2ca6f9;--gold:#e18e26;--muted:#8ea0c0;--radius:14px;--danger:#e53935;--success:#00c87a;--sidebar-w:240px}
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:'Hanken Grotesk',sans-serif;background:var(--ink);color:var(--paper);min-height:100vh}
+  body{font-family:'Afacad',sans-serif;background:var(--ink);color:var(--paper);min-height:100vh}
   a{color:inherit;text-decoration:none}
-  h1,h2,h3{font-family:'Bricolage Grotesque',sans-serif;font-weight:700}
+  h1,h2,h3{font-family:'Jost',sans-serif;font-weight:700}
   .sidebar{position:fixed;top:0;left:0;width:var(--sidebar-w);height:100vh;background:var(--ink-soft);border-right:1px solid var(--ink-line);display:flex;flex-direction:column;z-index:100;transition:transform .3s ease}
   .sidebar-logo{padding:22px 20px;border-bottom:1px solid var(--ink-line);display:flex;align-items:center;gap:10px}
-  .logo-mark{width:36px;height:36px;background:var(--accent);border-radius:9px;display:flex;align-items:center;justify-content:center;font-family:'Bricolage Grotesque';font-weight:800;font-size:16px;color:#061634;flex-shrink:0}
-  .logo-text{font-family:'Bricolage Grotesque';font-size:16px;font-weight:700}
-  .logo-text span{display:block;font-size:10px;color:var(--muted);font-family:'Hanken Grotesk';font-weight:400;margin-top:1px}
+  .logo-mark{width:36px;height:36px;background:var(--accent);border-radius:9px;display:flex;align-items:center;justify-content:center;font-family:'Jost';font-weight:800;font-size:16px;color:#061634;flex-shrink:0}
+  .logo-text{font-family:'Jost';font-size:16px;font-weight:700}
+  .logo-text span{display:block;font-size:10px;color:var(--muted);font-family:'Afacad';font-weight:400;margin-top:1px}
   .sidebar-nav{flex:1;padding:16px 0;overflow-y:auto}
   .nav-section{padding:0 16px;margin-bottom:4px}
   .nav-label{font-size:10px;text-transform:uppercase;letter-spacing:.12em;color:rgba(142,160,192,.5);padding:8px 8px 4px}
@@ -34,11 +34,11 @@
   .topbar{height:62px;background:var(--ink-soft);border-bottom:1px solid var(--ink-line);display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:50}
   .topbar-left{display:flex;align-items:center;gap:12px}
   .menu-btn{display:none;background:none;border:none;color:var(--paper);cursor:pointer}
-  .topbar-title{font-family:'Bricolage Grotesque';font-size:18px;font-weight:700}
+  .topbar-title{font-family:'Jost';font-size:18px;font-weight:700}
   .topbar-right{display:flex;align-items:center;gap:16px}
   .user-chip{display:flex;align-items:center;gap:10px}
-  .avatar{width:34px;height:34px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-family:'Bricolage Grotesque';font-weight:700;font-size:14px;color:#061634}
-  .logout-btn{padding:7px 14px;border-radius:7px;background:transparent;border:1px solid var(--ink-line);color:var(--muted);font-size:13px;cursor:pointer;transition:all .2s;font-family:'Hanken Grotesk'}
+  .avatar{width:34px;height:34px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-family:'Jost';font-weight:700;font-size:14px;color:#061634}
+  .logout-btn{padding:7px 14px;border-radius:7px;background:transparent;border:1px solid var(--ink-line);color:var(--muted);font-size:13px;cursor:pointer;transition:all .2s;font-family:'Afacad'}
   .logout-btn:hover{border-color:var(--danger);color:var(--danger)}
   .content{padding:28px;flex:1;max-width:760px}
   .page-header{margin-bottom:28px}
@@ -53,13 +53,13 @@
   .field input,.field textarea,.field select{
     width:100%;padding:10px 14px;
     background:rgba(10,23,51,.5);border:1px solid var(--ink-line);border-radius:9px;
-    color:var(--paper);font-family:'Hanken Grotesk';font-size:14px;transition:border-color .2s;
+    color:var(--paper);font-family:'Afacad';font-size:14px;transition:border-color .2s;
   }
   .field input:focus,.field textarea:focus,.field select:focus{outline:none;border-color:var(--accent)}
   .field input::placeholder,.field textarea::placeholder{color:rgba(142,160,192,.4)}
   .field textarea{resize:vertical;min-height:80px;line-height:1.5}
   .field-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-  .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:8px;font-family:'Hanken Grotesk';font-size:14px;font-weight:600;cursor:pointer;border:none;transition:all .2s}
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:8px;font-family:'Afacad';font-size:14px;font-weight:600;cursor:pointer;border:none;transition:all .2s}
   .btn-primary{background:var(--accent);color:#061634}
   .btn-primary:hover{background:var(--accent-bright);transform:translateY(-2px)}
   .btn-primary:disabled{opacity:.6;cursor:not-allowed;transform:none}
@@ -85,7 +85,7 @@
 <div class="layout">
 
 <aside class="sidebar" id="sidebar">
-  <div class="sidebar-logo"><div class="logo-mark">C</div><div class="logo-text">Corestack <span>Admin Panel</span></div></div>
+  <div class="sidebar-logo"><div class="logo-mark">D</div><div class="logo-text">Datapyre <span>Admin Panel</span></div></div>
   <nav class="sidebar-nav">
     <div class="nav-section">
       <div class="nav-label">Main</div>
@@ -130,7 +130,7 @@
           </div>
           <div class="field">
             <label>Email Address</label>
-            <input type="email" id="s-email" name="contact_email" placeholder="hello@corestack.co.ke"/>
+            <input type="email" id="s-email" name="contact_email" placeholder="hello@datapyre.co.ke"/>
           </div>
         </div>
         <div class="field">
@@ -143,21 +143,21 @@
         <div class="field-row">
           <div class="field">
             <label>LinkedIn</label>
-            <input type="url" id="s-linkedin" name="social_linkedin" placeholder="https://linkedin.com/company/corestack"/>
+            <input type="url" id="s-linkedin" name="social_linkedin" placeholder="https://linkedin.com/company/datapyre"/>
           </div>
           <div class="field">
             <label>Twitter / X</label>
-            <input type="url" id="s-twitter" name="social_twitter" placeholder="https://twitter.com/corestack"/>
+            <input type="url" id="s-twitter" name="social_twitter" placeholder="https://twitter.com/datapyre"/>
           </div>
         </div>
         <div class="field-row">
           <div class="field">
             <label>Instagram</label>
-            <input type="url" id="s-instagram" name="social_instagram" placeholder="https://instagram.com/corestack"/>
+            <input type="url" id="s-instagram" name="social_instagram" placeholder="https://instagram.com/datapyre"/>
           </div>
           <div class="field">
             <label>Facebook</label>
-            <input type="url" id="s-facebook" name="social_facebook" placeholder="https://facebook.com/corestack"/>
+            <input type="url" id="s-facebook" name="social_facebook" placeholder="https://facebook.com/datapyre"/>
           </div>
         </div>
         <button type="submit" class="btn btn-primary" id="save-general-btn">
@@ -216,7 +216,7 @@
   document.getElementById('user-avatar').textContent = (session?.name||'A').charAt(0).toUpperCase();
 
   const db = supabase.createClient('https://hyfotqpttdgznfjzppvc.supabase.co','sb_publishable_2lN1e_eazz1G5_DAHuiAOQ_oLBfQpcZ');
-  const CURRENT_PASSWORD = 'corestack2026';
+  const CURRENT_PASSWORD = 'datapyre2026';
 
   function logout(){ localStorage.removeItem('cs_admin_session'); window.location.replace('index.html'); }
 

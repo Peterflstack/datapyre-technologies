@@ -1,5 +1,5 @@
-// ─────────────────────────────────────────────────────────────────────────────
-// Corestack Technologies — Express + Supabase backend
+﻿// ─────────────────────────────────────────────────────────────────────────────
+// Datapyre Technologies — Express + Supabase backend
 // Run: npm start   (or: npm run dev  for auto-restart on file changes)
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -65,6 +65,6 @@ app.get('/api/health', (_req, res) => {
 
 // ── Start server ──────────────────────────────────────────────────────────────
 app.listen(PORT, () => {
-  console.log(`Corestack backend running → http://localhost:${PORT}`);
+  console.log(`Datapyre backend running → http://localhost:${PORT}`);
   console.log(`Health check            → http://localhost:${PORT}/api/health`);
 });

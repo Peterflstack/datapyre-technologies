@@ -1,12 +1,12 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Corestack Admin — Login</title>
+<title>Datapyre Admin — Login</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..60,400;12..60,600;12..60,700;12..60,800&family=Hanken+Grotesk:wght@400;500;600&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Afacad:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;0,9..144,800;1,9..144,400;1,9..144,700&family=Jost:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet"/>
 <style>
   :root {
     --ink:          #0a1733;
@@ -15,7 +15,7 @@
     --paper:        #eaf0fb;
     --accent:       #2e8bff;
     --accent-bright:#2ca6f9;
-    --gold:         #e18e26;
+    --gold:         #C27D28;
     --muted:        #8ea0c0;
     --radius:       14px;
     --danger:       #e53935;
@@ -23,7 +23,7 @@
   }
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   body {
-    font-family: 'Hanken Grotesk', sans-serif;
+    font-family: 'Afacad', sans-serif;
     background: var(--ink);
     color: var(--paper);
     min-height: 100vh;
@@ -69,13 +69,13 @@
     background: var(--accent);
     border-radius: 14px;
     display: inline-flex; align-items: center; justify-content: center;
-    font-family: 'Bricolage Grotesque'; font-weight: 800; font-size: 22px;
+    font-family: 'Jost'; font-weight: 800; font-size: 22px;
     color: #061634;
     margin-bottom: 16px;
     box-shadow: 0 8px 32px -8px rgba(46,139,255,0.6);
   }
   .logo-block h1 {
-    font-family: 'Bricolage Grotesque'; font-size: 24px; font-weight: 700;
+    font-family: 'Jost'; font-size: 24px; font-weight: 700;
   }
   .logo-block p { font-size: 13px; color: var(--muted); margin-top: 4px; }
 
@@ -89,7 +89,7 @@
     box-shadow: 0 32px 80px -20px rgba(0,0,0,0.5);
   }
   .card h2 {
-    font-family: 'Bricolage Grotesque'; font-size: 22px; font-weight: 700;
+    font-family: 'Jost'; font-size: 22px; font-weight: 700;
     margin-bottom: 6px;
   }
   .card .subtitle { font-size: 14px; color: var(--muted); margin-bottom: 28px; }
@@ -106,7 +106,7 @@
     border: 1px solid var(--ink-line);
     border-radius: 10px;
     color: var(--paper);
-    font-family: 'Hanken Grotesk'; font-size: 15px;
+    font-family: 'Afacad'; font-size: 15px;
     transition: border-color 0.2s;
   }
   .field input:focus { outline: none; border-color: var(--accent); }
@@ -116,7 +116,7 @@
     width: 100%; padding: 13px;
     background: var(--accent); color: #061634;
     border: none; border-radius: 10px;
-    font-family: 'Hanken Grotesk'; font-size: 15px; font-weight: 600;
+    font-family: 'Afacad'; font-size: 15px; font-weight: 600;
     cursor: pointer;
     transition: all 0.2s;
     display: flex; align-items: center; justify-content: center; gap: 8px;
@@ -162,8 +162,8 @@
 
 <div class="login-wrap">
   <div class="logo-block">
-    <div class="logo-icon">C</div>
-    <h1>Corestack</h1>
+    <div class="logo-icon">D</div>
+    <h1>Datapyre</h1>
     <p>Content Management System</p>
   </div>
 
@@ -176,7 +176,7 @@
     <form id="login-form">
       <div class="field">
         <label for="email">Email address</label>
-        <input type="email" id="email" placeholder="admin@corestack.co.ke" required autocomplete="email"/>
+        <input type="email" id="email" placeholder="admin@datapyre.co.ke" required autocomplete="email"/>
       </div>
       <div class="field">
         <label for="password">Password</label>
@@ -198,7 +198,7 @@
     window.location.replace('dashboard.html');
   }
 
-  const CREDS = { email: 'admin@corestack.co.ke', password: 'corestack2026' };
+  const CREDS = { email: 'admin@datapyre.co.ke', password: 'datapyre2026' };
 
   document.getElementById('login-form').addEventListener('submit', function(e) {
     e.preventDefault();

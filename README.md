@@ -1,11 +1,11 @@
-# Corestack Technologies — Website & Backend
+﻿# Datapyre Technologies — Website & Backend
 
 ## Project structure
 
 ```
-corestack-projects/
+datapyre-technologies/
 ├── index.html          # Main website (all HTML/CSS/JS)
-├── corestack_icon.png  # Site icon / logo mark
+├── datapyre_favicon.png  # Site icon / logo mark
 ├── server.js           # Express API server
 ├── package.json
 ├── .env                # Supabase credentials (never commit this)
@@ -19,7 +19,7 @@ corestack-projects/
 ## 1 — Set up Supabase (free, takes ~3 minutes)
 
 1. Go to [supabase.com](https://supabase.com) and sign in or create an account.
-2. Click **New project**, give it a name (e.g. `corestack`), choose a region close to Kenya (e.g. `ap-southeast-1 Singapore`), set a database password.
+2. Click **New project**, give it a name (e.g. `datapyre`), choose a region close to Kenya (e.g. `ap-southeast-1 Singapore`), set a database password.
 3. Wait ~60 seconds for the project to spin up.
 4. In the left sidebar go to **SQL Editor → New query**.
 5. Paste the contents of `supabase/schema.sql` and click **Run**. This creates the `leads` table.
