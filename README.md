@@ -1,4 +1,4 @@
-﻿# Datapyre Technologies — Website & Backend
+# Datapyre Technologies — Website & Backend
 
 ## Project structure
 
