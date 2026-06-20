@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
@@ -752,14 +752,13 @@
       <a href="#services">What we do</a>
       <a href="#work">Work</a>
       <a href="#about">About</a>
-      <a href="#blog" onclick="SPA.showBlog();return false;">Blog</a>
+      <a href="blog.html">Blog</a>
       <a href="#contact" class="btn">Start a project</a>
     </div>
     <button class="menu-toggle" id="menu-toggle" aria-label="Open navigation menu" aria-expanded="false">≡</button>
   </div>
 </nav>
 
-<div id="view-home">
 <a id="top"></a>
 <header class="hero">
   <div class="wrap hero-grid">
@@ -878,7 +877,7 @@
     </div>
     <div class="blog-grid" id="blog-grid" style="display:none"></div>
     <div id="blog-view-all" class="blog-view-all" style="display:none">
-      <button class="btn-outline" onclick="SPA.showBlog()">View all posts ›</button>
+      <a href="blog.html" class="btn-outline">View all posts ›</a>
     </div>
   </div>
 </section>
@@ -919,59 +918,6 @@
     </div>
   </div>
 </section>
-
-</div><!-- /view-home -->
-
-<!-- ── BLOG LISTING VIEW ── -->
-<div id="view-blog" hidden>
-  <div class="blog-view-hero">
-    <div class="wrap">
-      <div class="eyebrow">From the team</div>
-      <h1>The Datapyre Blog</h1>
-      <p class="hero-sub">Performance advertising, web, AI, data — thinking built in layers.</p>
-    </div>
-  </div>
-  <div class="blog-view-body">
-    <div class="wrap">
-      <div id="blog-chips" class="blog-chips"></div>
-      <div id="blog-all-loading" class="blog-all-loading" hidden><div class="loading-dots"><span></span><span></span><span></span></div></div>
-      <div id="blog-all-grid" class="blog-all-grid" hidden></div>
-      <div id="blog-all-empty" class="blog-all-empty" hidden>No posts published yet — check back soon.</div>
-    </div>
-  </div>
-</div>
-
-<!-- ── POST READING OVERLAY ── -->
-<div id="view-post" hidden>
-  <button class="spa-post-close" onclick="SPA.closePost()" aria-label="Close">✕</button>
-  <div class="spa-post-hero">
-    <div id="spa-cover-wrap"></div>
-    <div class="spa-post-header">
-      <div class="wrap">
-        <button class="spa-back-btn" onclick="SPA.closePost()">‹ Back</button>
-        <div id="spa-post-badge"></div>
-        <h1 id="spa-post-title"></h1>
-        <div class="spa-post-meta" id="spa-post-meta"></div>
-      </div>
-    </div>
-  </div>
-  <div class="spa-post-body">
-    <div class="wrap">
-      <div class="post-content" id="spa-post-content">
-        <div class="spa-post-loading"><div class="loading-dots"><span></span><span></span><span></span></div></div>
-      </div>
-    </div>
-  </div>
-  <section class="spa-related" id="spa-related" hidden>
-    <div class="wrap">
-      <h3>More from the blog</h3>
-      <div class="related-grid" id="spa-related-grid"></div>
-    </div>
-  </section>
-  <div class="spa-post-back-foot">
-    <button class="spa-back-btn" onclick="SPA.closePost()">‹ Back to Blog</button>
-  </div>
-</div>
 
 <footer>
   <div class="wrap">
@@ -1501,7 +1447,7 @@
       const slug = encodeURIComponent(p.slug || '');
       const rawSlug = (p.slug || '').replace(/'/g, "\\'");
       return `
-        <article class="blog-card reveal" onclick="SPA.openPost('${rawSlug}')">
+        <article class="blog-card reveal" onclick="location.href='blog-post.html?slug='+encodeURIComponent('${rawSlug}')">
           ${imgHTML}
           <div class="blog-card-body">
             ${catHTML}
@@ -1509,7 +1455,7 @@
             <p class="blog-excerpt">${p.excerpt || ''}</p>
             <div class="blog-card-foot">
               <span class="blog-date">${blogFmtDate(p.published_at || p.created_at)}</span>
-              <span class="blog-read" onclick="event.stopPropagation();SPA.openPost('${rawSlug}')">Read more ›</span>
+              <span class="blog-read" onclick="event.stopPropagation();location.href='blog-post.html?slug='+encodeURIComponent('${rawSlug}')">Read more ›</span>
             </div>
           </div>
         </article>`;
@@ -1533,292 +1479,6 @@
       }
     })
     .catch(() => {}); // silent — blank space shown on error
-  })();
-
-
-  /* ═══════════════════════════════════════════════
-     SPA ROUTER
-  ═══════════════════════════════════════════════ */
-  const SPA = (() => {
-    const SUPA_BASE = 'https://hyfotqpttdgznfjzppvc.supabase.co/rest/v1';
-    const SUPA_KEY  = 'sb_publishable_2lN1e_eazz1G5_DAHuiAOQ_oLBfQpcZ';
-
-    let currentView = 'home';   // 'home' | 'blog' | 'post'
-    let blogLoaded  = false;
-    let allPosts    = [];
-    let activeChip  = 'all';
-
-    const vHome = () => document.getElementById('view-home');
-    const vBlog = () => document.getElementById('view-blog');
-    const vPost = () => document.getElementById('view-post');
-
-    function _settle(el) { el.classList.remove('in'); el.classList.add('shown'); }
-    function _observe(els) {
-      if (window._spaIo) els.forEach(el => window._spaIo.observe(el));
-      else els.forEach(_settle);
-    }
-
-    function fmtDate(iso) {
-      if (!iso) return '';
-      return new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
-    }
-
-    // ── VIEW SWITCHING ──────────────────────────────────────────────────────
-
-    function showHome(anchor) {
-      vHome().hidden = false;
-      vBlog().hidden = true;
-      const post = vPost();
-      post.hidden = true;
-      post.classList.remove('open');
-      document.body.style.overflow = '';
-      currentView = 'home';
-      history.pushState({ view: 'home' }, '', '/');
-      document.title = 'Datapyre Technologies — Performance, Built In Layers';
-      if (anchor) {
-        requestAnimationFrame(() => {
-          const el = document.querySelector(anchor);
-          if (el) el.scrollIntoView({ behavior: 'smooth' });
-        });
-      } else {
-        window.scrollTo(0, 0);
-      }
-    }
-
-    function showBlog() {
-      vHome().hidden = true;
-      vBlog().hidden = false;
-      const post = vPost();
-      post.hidden = true;
-      post.classList.remove('open');
-      document.body.style.overflow = '';
-      currentView = 'blog';
-      window.scrollTo(0, 0);
-      history.pushState({ view: 'blog' }, '', '/?view=blog');
-      document.title = 'Blog — Datapyre Technologies';
-      if (!blogLoaded) _fetchBlog();
-    }
-
-    function openPost(slug) {
-      vPost().hidden = false;
-      requestAnimationFrame(() => vPost().classList.add('open'));
-      document.body.style.overflow = 'hidden';
-      history.pushState({ post: slug, prev: currentView }, '', '?post=' + encodeURIComponent(slug));
-      currentView = 'post';
-      _renderPost(slug);
-    }
-
-    function closePost() {
-      const post = vPost();
-      post.classList.remove('open');
-      post.addEventListener('transitionend', () => {
-        post.hidden = true;
-        document.body.style.overflow = '';
-      }, { once: true });
-      // Go back in history; popstate handler will set the right view
-      history.back();
-    }
-
-    // ── BLOG LISTING ─────────────────────────────────────────────────────────
-
-    async function _fetchBlog() {
-      const loading = document.getElementById('blog-all-loading');
-      loading.hidden = false;
-      try {
-        const res = await fetch(
-          SUPA_BASE + '/posts?select=id,title,slug,excerpt,cover_image,category,published_at,created_at&status=eq.published&order=published_at.desc.nullslast',
-          { headers: { apikey: SUPA_KEY, Authorization: 'Bearer ' + SUPA_KEY } }
-        );
-        const data = await res.json();
-        allPosts = Array.isArray(data) ? data : [];
-      } catch(e) { allPosts = []; }
-      blogLoaded = true;
-      loading.hidden = true;
-      _renderChips();
-      _renderGrid(activeChip);
-    }
-
-    function _renderChips() {
-      const cats = [...new Set(allPosts.map(p => p.category).filter(Boolean))];
-      const wrap = document.getElementById('blog-chips');
-      wrap.innerHTML = ['all', ...cats].map(c =>
-        `<button class="blog-chip${c === activeChip ? ' active' : ''}"
-          onclick="SPA.filterBlog('${c.replace(/'/g,"\\'")}')">${c === 'all' ? 'All posts' : c}</button>`
-      ).join('');
-    }
-
-    function _renderGrid(filter) {
-      const posts = filter === 'all' ? allPosts : allPosts.filter(p => p.category === filter);
-      const grid  = document.getElementById('blog-all-grid');
-      const empty = document.getElementById('blog-all-empty');
-      if (!posts.length) { grid.hidden = true; empty.hidden = false; return; }
-      grid.innerHTML = posts.map(_card).join('');
-      grid.hidden = false;
-      empty.hidden = true;
-      _observe(Array.from(grid.querySelectorAll('.reveal')));
-    }
-
-    function filterBlog(cat) {
-      activeChip = cat;
-      _renderChips();
-      _renderGrid(cat);
-    }
-
-    function _card(p) {
-      const slug = (p.slug || '').replace(/'/g, "\\'");
-      const img = p.cover_image
-        ? `<img src="${p.cover_image}" alt="${p.title}" class="blog-card-img" loading="lazy"/>`
-        : `<div class="blog-card-img-placeholder"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>`;
-      const cat = p.category ? `<span class="blog-cat">${p.category}</span>` : '';
-      return `<article class="blog-card reveal" onclick="SPA.openPost('${slug}')">
-        ${img}
-        <div class="blog-card-body">
-          ${cat}
-          <h3>${p.title || ''}</h3>
-          <p class="blog-excerpt">${p.excerpt || ''}</p>
-          <div class="blog-card-foot">
-            <span class="blog-date">${fmtDate(p.published_at || p.created_at)}</span>
-            <span class="blog-read" onclick="event.stopPropagation();SPA.openPost('${slug}')">Read more ›</span>
-          </div>
-        </div>
-      </article>`;
-    }
-
-    // ── POST OVERLAY ──────────────────────────────────────────────────────────
-
-    async function _renderPost(slug) {
-      // Reset
-      document.getElementById('spa-cover-wrap').innerHTML  = '';
-      document.getElementById('spa-post-badge').innerHTML  = '';
-      document.getElementById('spa-post-title').textContent = '';
-      document.getElementById('spa-post-meta').innerHTML   = '';
-      document.getElementById('spa-related').hidden        = true;
-      document.getElementById('spa-post-content').innerHTML =
-        '<div class="spa-post-loading"><div class="loading-dots"><span></span><span></span><span></span></div></div>';
-      vPost().scrollTop = 0;
-
-      try {
-        const res  = await fetch(
-          SUPA_BASE + '/posts?slug=eq.' + encodeURIComponent(slug) + '&status=eq.published&limit=1',
-          { headers: { apikey: SUPA_KEY, Authorization: 'Bearer ' + SUPA_KEY } }
-        );
-        const data = await res.json();
-        const post = Array.isArray(data) && data[0];
-
-        if (!post) {
-          document.getElementById('spa-post-content').innerHTML =
-            '<p style="color:var(--muted)">Post not found — it may have been removed or the link is incorrect.</p>';
-          return;
-        }
-
-        document.title = post.title + ' — Datapyre Blog';
-
-        document.getElementById('spa-cover-wrap').innerHTML = post.cover_image
-          ? `<img src="${post.cover_image}" alt="${post.title}" class="spa-post-cover"/>`
-          : '<div class="spa-post-cover-ph"></div>';
-
-        document.getElementById('spa-post-badge').innerHTML = post.category
-          ? `<span class="post-badge">${post.category}</span>` : '';
-
-        document.getElementById('spa-post-title').textContent = post.title;
-        document.getElementById('spa-post-meta').innerHTML =
-          `<span>${fmtDate(post.published_at || post.created_at)}</span>`;
-
-        document.getElementById('spa-post-content').innerHTML = post.content || '';
-
-        _loadRelated(post.id, post.category);
-      } catch(e) {
-        document.getElementById('spa-post-content').innerHTML =
-          '<p style="color:var(--muted)">Failed to load post. Please try again.</p>';
-      }
-    }
-
-    async function _loadRelated(id, category) {
-      const base = SUPA_BASE + '/posts?select=id,title,slug,cover_image,category,published_at,created_at&status=eq.published&id=neq.' + id + '&limit=3&order=published_at.desc.nullslast';
-      const url  = category ? base + '&category=eq.' + encodeURIComponent(category) : base;
-      try {
-        let res  = await fetch(url, { headers: { apikey: SUPA_KEY, Authorization: 'Bearer ' + SUPA_KEY } });
-        let data = await res.json();
-        if (!data || !data.length) {
-          res  = await fetch(base, { headers: { apikey: SUPA_KEY, Authorization: 'Bearer ' + SUPA_KEY } });
-          data = await res.json();
-        }
-        if (!data || !data.length) return;
-        document.getElementById('spa-related-grid').innerHTML = data.map(p => {
-          const slug = (p.slug || '').replace(/'/g, "\\'");
-          const img  = p.cover_image
-            ? `<img src="${p.cover_image}" alt="${p.title}" class="related-card-img" loading="lazy"/>`
-            : '<div class="related-card-ph">✦</div>';
-          return `<div class="related-card" onclick="SPA.openPost('${slug}')">
-            ${img}
-            <div class="related-card-body">
-              ${p.category ? `<span class="related-badge">${p.category}</span>` : ''}
-              <div class="related-title">${p.title}</div>
-              <div class="related-date">${fmtDate(p.published_at || p.created_at)}</div>
-            </div>
-          </div>`;
-        }).join('');
-        document.getElementById('spa-related').hidden = false;
-      } catch(e) {}
-    }
-
-    // ── POPSTATE / DEEP LINKS ─────────────────────────────────────────────────
-
-    window.addEventListener('popstate', e => {
-      const params = new URLSearchParams(location.search);
-      if (params.has('post')) {
-        const slug = params.get('post');
-        vPost().hidden = false;
-        requestAnimationFrame(() => vPost().classList.add('open'));
-        document.body.style.overflow = 'hidden';
-        currentView = 'post';
-        _renderPost(slug);
-      } else if (params.get('view') === 'blog') {
-        showBlog();
-      } else {
-        vHome().hidden = false;
-        vBlog().hidden = true;
-        vPost().hidden = true;
-        vPost().classList.remove('open');
-        document.body.style.overflow = '';
-        currentView = 'home';
-        document.title = 'Datapyre Technologies — Performance, Built In Layers';
-        // Scroll to anchor if state has one
-        if (e.state && e.state.anchor) {
-          const el = document.querySelector(e.state.anchor);
-          if (el) el.scrollIntoView({ behavior: 'smooth' });
-        }
-      }
-    });
-
-    // ── DEEP LINK INIT ────────────────────────────────────────────────────────
-    (() => {
-      const params = new URLSearchParams(location.search);
-      if (params.has('post')) {
-        vHome().hidden = true;
-        vPost().hidden = false;
-        requestAnimationFrame(() => vPost().classList.add('open'));
-        document.body.style.overflow = 'hidden';
-        currentView = 'post';
-        _renderPost(params.get('post'));
-      } else if (params.get('view') === 'blog') {
-        showBlog();
-      }
-    })();
-
-    // ── NAV ANCHOR WIRING ─────────────────────────────────────────────────────
-    document.querySelectorAll('.nav-links a[href^="#"]').forEach(a => {
-      if (a.getAttribute('href') === '#blog') return; // handled separately
-      a.addEventListener('click', e => {
-        if (currentView !== 'home') {
-          e.preventDefault();
-          const anchor = a.getAttribute('href');
-          showHome(anchor);
-        }
-      });
-    });
-
-    return { showHome, showBlog, openPost, closePost, filterBlog };
   })();
 
 </script>
