@@ -340,8 +340,8 @@
   }
 
   function renderCard(p) {
-    const img = p.cover_image
-      ? `<img src="${p.cover_image}" alt="${p.title}" class="card-img" loading="lazy"/>`
+    const img = p.featured_image
+      ? `<img src="${p.featured_image}" alt="${p.title}" class="card-img" loading="lazy"/>`
       : `<div class="card-img-placeholder">✦</div>`;
     const badge = p.category
       ? `<span class="card-badge">${p.category}</span>`
@@ -364,7 +364,7 @@
   async function loadPosts() {
     const { data, error } = await db
       .from('posts')
-      .select('id,title,slug,excerpt,cover_image,category,status,published_at,created_at')
+      .select('id,title,slug,excerpt,featured_image,category,status,published_at,created_at')
       .eq('status', 'published')
       .order('published_at', { ascending: false, nullsFirst: false });
 

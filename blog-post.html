@@ -367,8 +367,8 @@
   }
 
   function renderRelated(p) {
-    const img = p.cover_image
-      ? `<img src="${p.cover_image}" alt="${p.title}" class="related-card-img" loading="lazy"/>`
+    const img = p.featured_image
+      ? `<img src="${p.featured_image}" alt="${p.title}" class="related-card-img" loading="lazy"/>`
       : `<div class="related-card-placeholder">✦</div>`;
     return `
       <div class="related-card" onclick="location.href='blog-post.html?slug=${encodeURIComponent(p.slug)}'">
@@ -401,9 +401,9 @@
     document.getElementById('meta-title').textContent = data.title + ' — Datapyre Blog';
     document.getElementById('meta-desc').setAttribute('content', data.excerpt || '');
 
-    if (data.cover_image) {
+    if (data.featured_image) {
       document.getElementById('cover-wrap').innerHTML =
-        `<img src="${data.cover_image}" alt="${data.title}" class="post-cover"/>`;
+        `<img src="${data.featured_image}" alt="${data.title}" class="post-cover"/>`;
     } else {
       document.getElementById('cover-wrap').innerHTML = `<div class="post-cover-placeholder"></div>`;
     }
@@ -427,7 +427,7 @@
   async function loadRelated(currentId, category) {
     let query = db
       .from('posts')
-      .select('id,title,slug,cover_image,category,published_at,created_at')
+      .select('id,title,slug,featured_image,category,published_at,created_at')
       .eq('status', 'published')
       .neq('id', currentId)
       .limit(3);
@@ -440,7 +440,7 @@
     if (!data || !data.length) {
       const fallback = await db
         .from('posts')
-        .select('id,title,slug,cover_image,category,published_at,created_at')
+        .select('id,title,slug,featured_image,category,published_at,created_at')
         .eq('status', 'published')
         .neq('id', currentId)
         .order('published_at', { ascending: false, nullsFirst: false })

@@ -107,6 +107,18 @@
   .spinner{width:14px;height:14px;border:2px solid rgba(6,22,52,.4);border-top-color:#061634;border-radius:50%;animation:spin .7s linear infinite;display:none}
   @keyframes spin{to{transform:rotate(360deg)}}
 
+  /* ── Featured image upload ── */
+  .img-mode-tabs{display:flex;gap:6px;margin-bottom:10px}
+  .img-tab{flex:1;padding:6px 10px;border-radius:7px;font-size:12px;font-family:'Afacad';font-weight:600;cursor:pointer;background:transparent;border:1px solid var(--ink-line);color:var(--muted);transition:all .2s}
+  .img-tab.img-tab-active{background:rgba(46,139,255,.12);border-color:var(--accent);color:var(--accent)}
+  .img-tab:hover:not(.img-tab-active){border-color:var(--paper);color:var(--paper)}
+  .upload-spinner{width:14px;height:14px;border:2px solid rgba(234,240,251,.2);border-top-color:var(--paper);border-radius:50%;animation:spin .7s linear infinite}
+  .upload-error{color:#e57373;font-size:12px;margin-top:6px;display:none}
+  .img-preview-wrap{margin-top:10px}
+  .img-preview-wrap img{width:100%;max-height:160px;object-fit:cover;border-radius:8px;display:block;border:1px solid var(--ink-line)}
+  .img-clear-btn{display:block;font-size:11px;color:var(--muted);margin-top:6px;background:none;border:none;cursor:pointer;font-family:'Afacad';padding:0;transition:color .2s}
+  .img-clear-btn:hover{color:#e57373}
+
   .toast-container{position:fixed;bottom:24px;right:24px;z-index:1000;display:flex;flex-direction:column;gap:10px}
   .toast{padding:12px 18px;border-radius:10px;font-size:14px;display:flex;align-items:center;gap:10px;animation:toastIn .3s ease;max-width:320px}
   .toast-success{background:rgba(0,200,122,.12);border:1px solid rgba(0,200,122,.3);color:var(--success)}
@@ -222,8 +234,32 @@
             <input type="text" id="post-tags" placeholder="seo, marketing, growth (comma separated)"/>
           </div>
           <div class="field">
-            <label>Featured Image URL</label>
-            <input type="url" id="post-image" placeholder="https://…"/>
+            <label>Featured Image</label>
+            <div class="img-mode-tabs">
+              <button type="button" class="img-tab img-tab-active" id="tab-upload" onclick="setImgMode('upload')">↑ Upload</button>
+              <button type="button" class="img-tab" id="tab-url" onclick="setImgMode('url')">Paste URL</button>
+            </div>
+            <!-- Upload zone -->
+            <div id="img-upload-zone">
+              <input type="file" id="img-file-input" accept="image/jpeg,image/png,image/webp" style="display:none"/>
+              <button type="button" class="btn btn-ghost" style="margin-bottom:0" id="img-upload-btn" onclick="document.getElementById('img-file-input').click()">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" style="width:14px;height:14px;flex-shrink:0"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5"/></svg>
+                <span id="upload-btn-text">Choose Image</span>
+                <div class="upload-spinner" id="upload-spin" style="display:none"></div>
+              </button>
+              <div class="upload-error" id="upload-error"></div>
+            </div>
+            <!-- URL zone -->
+            <div id="img-url-zone" style="display:none">
+              <input type="url" id="post-image-url" placeholder="https://…" oninput="syncImageUrl()"/>
+            </div>
+            <!-- Hidden field that savePost reads -->
+            <input type="hidden" id="post-image"/>
+            <!-- Preview -->
+            <div class="img-preview-wrap" id="img-preview-wrap" style="display:none">
+              <img id="img-preview" src="" alt="Featured image preview"/>
+              <button type="button" class="img-clear-btn" onclick="clearImage()">✕ Remove image</button>
+            </div>
           </div>
         </div>
       </div>
@@ -289,6 +325,85 @@
     document.getElementById('post-slug').value = slug;
   }
 
+  // ── Featured image upload ──
+  let _imgMode = 'upload';
+
+  function setImgMode(mode) {
+    _imgMode = mode;
+    document.getElementById('img-upload-zone').style.display = mode === 'upload' ? '' : 'none';
+    document.getElementById('img-url-zone').style.display    = mode === 'url'    ? '' : 'none';
+    document.getElementById('tab-upload').classList.toggle('img-tab-active', mode === 'upload');
+    document.getElementById('tab-url').classList.toggle('img-tab-active', mode === 'url');
+  }
+
+  function setImageUrl(url) {
+    document.getElementById('post-image').value       = url || '';
+    document.getElementById('post-image-url').value   = url || '';
+    const wrap = document.getElementById('img-preview-wrap');
+    const prev = document.getElementById('img-preview');
+    if (url) { prev.src = url; wrap.style.display = ''; }
+    else      { prev.src = ''; wrap.style.display = 'none'; }
+  }
+
+  function syncImageUrl() {
+    setImageUrl(document.getElementById('post-image-url').value.trim());
+  }
+
+  function clearImage() {
+    setImageUrl('');
+    document.getElementById('img-file-input').value = '';
+    document.getElementById('upload-btn-text').textContent = 'Choose Image';
+    document.getElementById('upload-error').style.display = 'none';
+  }
+
+  document.getElementById('img-file-input').addEventListener('change', async function() {
+    const file  = this.files[0];
+    if (!file) return;
+    const errEl  = document.getElementById('upload-error');
+    const btn    = document.getElementById('img-upload-btn');
+    const spin   = document.getElementById('upload-spin');
+    const btnTxt = document.getElementById('upload-btn-text');
+    errEl.style.display = 'none';
+
+    if (!['image/jpeg','image/png','image/webp'].includes(file.type)) {
+      errEl.textContent = 'Only JPEG, PNG or WebP images are accepted.';
+      errEl.style.display = 'block';
+      this.value = ''; return;
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      errEl.textContent = 'Image must be under 5 MB.';
+      errEl.style.display = 'block';
+      this.value = ''; return;
+    }
+
+    btn.disabled = true;
+    spin.style.display = 'block';
+    btnTxt.textContent = 'Uploading…';
+
+    const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
+    const path     = Date.now() + '-' + safeName;
+
+    const { data: upData, error: upErr } = await db.storage
+      .from('blog-images')
+      .upload(path, file, { contentType: file.type, upsert: false });
+
+    btn.disabled = false;
+    spin.style.display = 'none';
+
+    if (upErr) {
+      btnTxt.textContent = 'Choose Image';
+      errEl.textContent  = 'Upload failed: ' + upErr.message;
+      errEl.style.display = 'block';
+      return;
+    }
+
+    const { data: { publicUrl } } = db.storage.from('blog-images').getPublicUrl(upData.path);
+    const label = file.name.length > 26 ? file.name.slice(0, 24) + '…' : file.name;
+    btnTxt.textContent = '✓ ' + label;
+    setImageUrl(publicUrl);
+    toast('Image uploaded');
+  });
+
   // ── Load existing post if ?id= ──
   const postId = new URLSearchParams(location.search).get('id');
   let editingId = postId || null;
@@ -302,7 +417,7 @@
     document.getElementById('post-slug').value     = data.slug || '';
     document.getElementById('post-category').value = data.category || '';
     document.getElementById('post-tags').value     = data.tags || '';
-    document.getElementById('post-image').value    = data.featured_image || '';
+    setImageUrl(data.featured_image || '');
     document.getElementById('post-excerpt').value  = data.excerpt || '';
     document.getElementById('post-status').value   = data.status || 'draft';
     if(data.content) quill.root.innerHTML = data.content;
