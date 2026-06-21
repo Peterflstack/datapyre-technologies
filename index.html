@@ -865,8 +865,8 @@
       <h2>Let's build your stack.</h2>
       <p>Tell us what you are trying to grow. We will come back with a clear, honest plan, no jargon, no fluff.</p>
       <div class="contact-meta">
-        <div><span class="k">Email</span><a href="mailto:hello@datapyre.co.ke">hello@datapyre.co.ke</a></div>
-        <div><span class="k">WhatsApp</span><a href="https://wa.me/254700000000" target="_blank" rel="noopener">+254 700 000 000</a></div>
+        <div><span class="k">Email</span><a id="cs-email" href="mailto:hello@datapyre.co.ke">hello@datapyre.co.ke</a></div>
+        <div><span class="k">WhatsApp</span><a id="cs-wa" href="https://wa.me/254700000000" target="_blank" rel="noopener">+254 700 000 000</a></div>
         <div><span class="k">Based in</span><span>Nairobi, Kenya</span></div>
       </div>
     </div>
@@ -933,9 +933,11 @@
         <ul>
           <li><a href="/#contact">Start a Project</a></li>
           <li><a href="#contact">Contact Us</a></li>
-          <li><a href="https://wa.me/254700000000" target="_blank" rel="noopener">WhatsApp</a></li>
-          <li><a href="https://linkedin.com/company/datapyre-technologies" target="_blank" rel="noopener">LinkedIn</a></li>
-          <li><a href="https://x.com/datapyretech" target="_blank" rel="noopener">Twitter / X</a></li>
+          <li><a id="ft-wa" href="https://wa.me/254700000000" target="_blank" rel="noopener">WhatsApp</a></li>
+          <li><a id="ft-li" href="https://linkedin.com/company/datapyre-technologies" target="_blank" rel="noopener">LinkedIn</a></li>
+          <li><a id="ft-tw" href="https://x.com/datapyretech" target="_blank" rel="noopener">Twitter / X</a></li>
+          <li id="ft-ig-li" style="display:none"><a id="ft-ig" href="#" target="_blank" rel="noopener">Instagram</a></li>
+          <li id="ft-fb-li" style="display:none"><a id="ft-fb" href="#" target="_blank" rel="noopener">Facebook</a></li>
           <li><a href="https://github.com/Peterflstack" target="_blank" rel="noopener">GitHub</a></li>
           <li><a href="/privacy">Privacy Policy</a></li>
         </ul>
@@ -961,7 +963,7 @@
     </span>
     <span class="nova-ping"></span>
   </button>
-  <a class="fab-wa" href="https://wa.me/254700000000" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
+  <a id="fab-wa" class="fab-wa" href="https://wa.me/254700000000" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
     <svg width="24" height="24" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
       <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
     </svg>
@@ -990,6 +992,66 @@
 </div>
 
 <script>
+  window._dpSett = {};
+
+  /* ── SETTINGS: fetch from Supabase and apply to page ── */
+  (function() {
+    const SUPA_BASE = 'https://hyfotqpttdgznfjzppvc.supabase.co/rest/v1';
+    const SUPA_KEY  = 'sb_publishable_2lN1e_eazz1G5_DAHuiAOQ_oLBfQpcZ';
+
+    function fmtWa(num) {
+      const s = String(num || '').replace(/\D/g, '');
+      if (s.startsWith('254') && s.length === 12)
+        return '+' + s.slice(0,3) + ' ' + s.slice(3,6) + ' ' + s.slice(6,9) + ' ' + s.slice(9);
+      return s ? '+' + s : '+254 700 000 000';
+    }
+
+    function applySettings(s) {
+      window._dpSett = s;
+      const wa    = s.whatsapp_number || '254700000000';
+      const em    = s.contact_email   || 'hello@datapyre.co.ke';
+      const waUrl = 'https://wa.me/' + wa;
+      const waFmt = fmtWa(wa);
+
+      var fabWa = document.getElementById('fab-wa');
+      if (fabWa) fabWa.href = waUrl;
+
+      var csEmail = document.getElementById('cs-email');
+      if (csEmail) { csEmail.href = 'mailto:' + em; csEmail.textContent = em; }
+      var csWa = document.getElementById('cs-wa');
+      if (csWa) { csWa.href = waUrl; csWa.textContent = waFmt; }
+
+      var ftWa = document.getElementById('ft-wa');
+      if (ftWa) ftWa.href = waUrl;
+
+      [['ft-li', s.social_linkedin], ['ft-tw', s.social_twitter],
+       ['ft-ig', s.social_instagram], ['ft-fb', s.social_facebook]
+      ].forEach(function(pair) {
+        var el = document.getElementById(pair[0]);
+        if (!el) return;
+        var li = el.parentElement;
+        if (pair[1]) {
+          el.href = pair[1];
+          if (li) li.style.display = '';
+        } else {
+          if (li) li.style.display = 'none';
+        }
+      });
+    }
+
+    fetch(SUPA_BASE + '/settings?select=key,value', {
+      headers: { 'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + SUPA_KEY }
+    })
+    .then(function(r) { return r.json(); })
+    .then(function(rows) {
+      if (!Array.isArray(rows)) return;
+      var s = {};
+      rows.forEach(function(r) { s[r.key] = r.value; });
+      applySettings(s);
+    })
+    .catch(function() {}); // silent: hardcoded HTML fallbacks remain
+  })();
+
   /* ── NAV SCROLL ── */
   const nav = document.getElementById('nav');
   window.addEventListener('scroll', () => {
@@ -1167,7 +1229,15 @@
       ict:["We offer ICT and cloud consultancy: infrastructure planning, cloud migration, tool selection, and digital transformation strategy — practical and jargon-free.\n\nWhat's the technology challenge you're trying to solve?","Cloud migration, infrastructure planning, digital transformation — practical guidance, no jargon. What's on your plate?"],
       ads:["We run full-funnel paid campaigns across Meta, Google, TikTok, LinkedIn, and emerging AI platforms like ChatGPT. Strategy, creative, targeting, optimisation, and executive reporting — end to end.\n\nWhich platform are you most interested in?","Meta, Google, TikTok, LinkedIn, ChatGPT — we manage them all. Strategy, creative, optimisation, and reporting. What's your goal: leads, sales, sign-ups, or awareness?"],
       pricing:["Our pricing is project-based and fully transparent — scope, complexity, and timeline drive the number.\n\nThe best move: share your brief and we'll send back a clear proposal. No guesswork, no surprises. Want to get a quote?","We price per project so you always know what you're getting before we start. Tell me what you need and I'll help you frame it for the team. 💬"],
-      contact:["Reach the Datapyre team here:\n\n📧 hello@datapyre.co.ke\n📱 WhatsApp: +254 700 000 000\n📍 Nairobi, Kenya\n\nThe green WhatsApp button on this page is the fastest route. 👇","You can reach us on:\n📧 hello@datapyre.co.ke\n📱 WhatsApp: +254 700 000 000\n\nOr fill in the contact form at the bottom of this page. What's your preferred channel?"],
+      get contact() {
+        var _s = window._dpSett || {};
+        var _em = _s.contact_email || 'hello@datapyre.co.ke';
+        var _wa = '+' + (_s.whatsapp_number || '254700000000');
+        return [
+          'Reach the Datapyre team here:\n\n📧 ' + _em + '\n📱 WhatsApp: ' + _wa + '\n📍 Nairobi, Kenya\n\nThe green WhatsApp button on this page is the fastest route. 👇',
+          'You can reach us on:\n📧 ' + _em + '\n📱 WhatsApp: ' + _wa + '\n\nOr fill in the contact form at the bottom of this page. What\'s your preferred channel?'
+        ];
+      },
       location:["We're based in Nairobi, Kenya 🇰🇪. We work with clients across East Africa and beyond — digital work travels well.","Nairobi is home base. Most collaboration happens over calls, Slack, and shared tools. Where are you based?"],
       clients:["We've worked with Dex Mumo Group, Zetech University, Nax Today, Editon Consortium, Gretsa University, and East University among others — education, media, enterprise, and consulting across the board. What industry are you in?","Our client roster includes Dex Mumo Group, Zetech University, Nax Today, Editon Consortium, Gretsa University, and East University. A diverse range that shows we adapt well. Want to know more about any specific engagement?"],
       start:["Getting started is simple:\n\n1️⃣ Tell us about your project — form below or WhatsApp\n2️⃣ We schedule a discovery call\n3️⃣ Clear proposal: scope, timeline, pricing\n4️⃣ We get to work 🚀\n\nNo pressure, no jargon. Ready?","Fastest way to start: hit the WhatsApp button on this page or fill the contact form below. We'll book a discovery call and come back with a clear plan."],
@@ -1178,7 +1248,12 @@
       whoami:["I'm Nova — Datapyre Technologies' AI assistant. Trained on everything Datapyre does so I can answer fast. For proposals and detailed conversations the human team takes over. What can I help with?","Nova here! An AI assistant built by Datapyre. Not human, but pretty good at this. 😄 What would you like to know?"],
       thanks:["You're welcome! 😊 Anything else I can help with?","Happy to help! What else is on your mind?","Glad that was useful! Feel free to ask anything else."],
       bye:["Take care! 👋 If you ever need us, we're a message away. Hope to work with you soon!","Goodbye! Come back anytime — and the WhatsApp button is always there. 🚀"],
-      human:["Totally understandable!\n\n📧 hello@datapyre.co.ke\n📱 WhatsApp: +254 700 000 000\n\nThe team usually responds within a few hours during business hours. 🙌"],
+      get human() {
+        var _s = window._dpSett || {};
+        var _em = _s.contact_email || 'hello@datapyre.co.ke';
+        var _wa = '+' + (_s.whatsapp_number || '254700000000');
+        return ['Totally understandable!\n\n📧 ' + _em + '\n📱 WhatsApp: ' + _wa + '\n\nThe team usually responds within a few hours during business hours. 🙌'];
+      },
       fallback:["I want to make sure I give you the right answer — could you rephrase? I can help with services, pricing, timelines, getting started, or contacting the team.","Hmm, not quite sure I caught that. Try asking about our services, pricing, how to get started, or our timeline. What are you really after?","Could you tell me a bit more? I'm here to help with anything Datapyre-related. 😊"]
     };
 
@@ -1343,7 +1418,10 @@
             addMsg('nova', 'Sending your details to the team… ⏳');
             const ok = await saveLead();
             if (ok) {
-              addMsg('nova', `All done, ${lead.data.name.split(' ')[0]}! 🎉 The Datapyre team has your enquiry and will be in touch soon.\n\nYou can also reach us directly:\n📧 hello@datapyre.co.ke\n📱 WhatsApp: +254 700 000 000`);
+              const _s2 = window._dpSett || {};
+              const _em2 = _s2.contact_email || 'hello@datapyre.co.ke';
+              const _wa2 = '+' + (_s2.whatsapp_number || '254700000000');
+              addMsg('nova', `All done, ${lead.data.name.split(' ')[0]}! 🎉 The Datapyre team has your enquiry and will be in touch soon.\n\nYou can also reach us directly:\n📧 ${_em2}\n📱 WhatsApp: ${_wa2}`);
             } else {
               addMsg('nova', 'Hmm, something went wrong. Please try the contact form at the bottom of the page. 🙏');
             }

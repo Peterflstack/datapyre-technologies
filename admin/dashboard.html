@@ -400,26 +400,29 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script>
-  // ── Auth guard ──
-  const session = JSON.parse(localStorage.getItem('cs_admin_session'));
-  if (!session) window.location.replace('index.html');
+  const db = supabase.createClient(
+    'https://hyfotqpttdgznfjzppvc.supabase.co',
+    'sb_publishable_2lN1e_eazz1G5_DAHuiAOQ_oLBfQpcZ'
+  );
 
-  // ── Init ──
-  const SUPA_URL = 'https://hyfotqpttdgznfjzppvc.supabase.co';
-  const SUPA_KEY = 'sb_publishable_2lN1e_eazz1G5_DAHuiAOQ_oLBfQpcZ';
-  const db = supabase.createClient(SUPA_URL, SUPA_KEY);
-
-  // ── Greeting ──
-  const hour = new Date().getHours();
-  document.getElementById('greeting-time').textContent = hour < 12 ? 'morning' : hour < 17 ? 'afternoon' : 'evening';
-  const name = session?.name || 'Admin';
-  document.getElementById('greeting-name').textContent = name;
-  document.getElementById('user-name').textContent = name;
-  document.getElementById('user-avatar').textContent = name.charAt(0).toUpperCase();
+  // ── Auth guard (async) ──
+  document.body.style.visibility = 'hidden';
+  db.auth.getSession().then(function({ data: { session } }) {
+    if (!session) { window.location.replace('index.html'); return; }
+    const name = (session.user.email || '').split('@')[0] || 'Admin';
+    const hour = new Date().getHours();
+    document.getElementById('greeting-time').textContent = hour < 12 ? 'morning' : hour < 17 ? 'afternoon' : 'evening';
+    document.getElementById('greeting-name').textContent = name;
+    document.getElementById('user-name').textContent = name;
+    document.getElementById('user-avatar').textContent = name.charAt(0).toUpperCase();
+    document.body.style.visibility = 'visible';
+    loadStats();
+    loadRecentLeads();
+    loadRecentPosts();
+  });
 
   function logout() {
-    localStorage.removeItem('cs_admin_session');
-    window.location.replace('index.html');
+    db.auth.signOut().then(function() { window.location.replace('index.html'); });
   }
 
   function toggleSidebar() {
@@ -487,9 +490,6 @@
     `).join('');
   }
 
-  loadStats();
-  loadRecentLeads();
-  loadRecentPosts();
 </script>
 </body>
 </html>

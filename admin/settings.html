@@ -210,15 +210,20 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script>
-  const session = JSON.parse(localStorage.getItem('cs_admin_session'));
-  if(!session) window.location.replace('index.html');
-  document.getElementById('user-name').textContent = session?.name||'Admin';
-  document.getElementById('user-avatar').textContent = (session?.name||'A').charAt(0).toUpperCase();
-
   const db = supabase.createClient('https://hyfotqpttdgznfjzppvc.supabase.co','sb_publishable_2lN1e_eazz1G5_DAHuiAOQ_oLBfQpcZ');
-  const CURRENT_PASSWORD = 'datapyre2026';
 
-  function logout(){ localStorage.removeItem('cs_admin_session'); window.location.replace('index.html'); }
+  // ── Auth guard (async) ──
+  document.body.style.visibility = 'hidden';
+  db.auth.getSession().then(function({ data: { session } }) {
+    if(!session) { window.location.replace('index.html'); return; }
+    const name = (session.user.email || '').split('@')[0] || 'Admin';
+    document.getElementById('user-name').textContent = name;
+    document.getElementById('user-avatar').textContent = name.charAt(0).toUpperCase();
+    document.body.style.visibility = 'visible';
+    loadSettings();
+  });
+
+  function logout(){ db.auth.signOut().then(function() { window.location.replace('index.html'); }); }
 
   function toast(msg,type='success'){
     const el=document.createElement('div');
@@ -269,22 +274,21 @@
     else { toast('Settings saved successfully'); }
   });
 
-  document.getElementById('password-form').addEventListener('submit', function(e){
+  document.getElementById('password-form').addEventListener('submit', async function(e){
     e.preventDefault();
-    const current = document.getElementById('pw-current').value;
     const newPw   = document.getElementById('pw-new').value;
     const confirm = document.getElementById('pw-confirm').value;
 
-    // Get stored password (could be updated)
-    const storedPw = localStorage.getItem('cs_admin_password') || CURRENT_PASSWORD;
-
-    if(current !== storedPw){ toast('Current password is incorrect','error'); return; }
     if(newPw !== confirm){ toast('New passwords do not match','error'); return; }
     if(newPw.length < 8){ toast('Password must be at least 8 characters','error'); return; }
 
-    localStorage.setItem('cs_admin_password', newPw);
+    const btn  = e.submitter;
+    if(btn) btn.disabled = true;
+    const { error } = await db.auth.updateUser({ password: newPw });
+    if(btn) btn.disabled = false;
+    if(error){ toast('Failed to update password: ' + error.message, 'error'); return; }
     document.getElementById('password-form').reset();
-    toast('Password updated. Note: restart the server to apply server-side changes.');
+    toast('Password updated successfully.');
   });
 
   async function clearAllLeads(){
@@ -298,7 +302,6 @@
     toast('All leads have been deleted');
   }
 
-  loadSettings();
 </script>
 </body>
 </html>

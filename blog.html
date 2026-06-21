@@ -292,9 +292,11 @@
         <h4>Connect</h4>
         <ul>
           <li><a href="index.html#contact">Contact Us</a></li>
-          <li><a href="https://wa.me/254700000000" target="_blank" rel="noopener">WhatsApp</a></li>
-          <li><a href="https://linkedin.com/company/datapyre-technologies" target="_blank" rel="noopener">LinkedIn</a></li>
-          <li><a href="https://x.com/datapyretech" target="_blank" rel="noopener">Twitter / X</a></li>
+          <li><a id="ft-wa" href="https://wa.me/254700000000" target="_blank" rel="noopener">WhatsApp</a></li>
+          <li><a id="ft-li" href="https://linkedin.com/company/datapyre-technologies" target="_blank" rel="noopener">LinkedIn</a></li>
+          <li><a id="ft-tw" href="https://x.com/datapyretech" target="_blank" rel="noopener">Twitter / X</a></li>
+          <li id="ft-ig-li" style="display:none"><a id="ft-ig" href="#" target="_blank" rel="noopener">Instagram</a></li>
+          <li id="ft-fb-li" style="display:none"><a id="ft-fb" href="#" target="_blank" rel="noopener">Facebook</a></li>
           <li><a href="https://github.com/Peterflstack" target="_blank" rel="noopener">GitHub</a></li>
         </ul>
       </div>
@@ -380,6 +382,40 @@
   }
 
   loadPosts();
+
+  /* ── SETTINGS: apply live values from Supabase ── */
+  (function() {
+    var SUPA_BASE = 'https://hyfotqpttdgznfjzppvc.supabase.co/rest/v1';
+    var SUPA_KEY  = 'sb_publishable_2lN1e_eazz1G5_DAHuiAOQ_oLBfQpcZ';
+    function applySettings(s) {
+      var wa = s.whatsapp_number || '254700000000';
+      var em = s.contact_email   || 'hello@datapyre.co.ke';
+      var ftWa = document.getElementById('ft-wa');
+      if (ftWa) ftWa.href = 'https://wa.me/' + wa;
+      var inlineEmail = document.getElementById('inline-email');
+      if (inlineEmail) { inlineEmail.href = 'mailto:' + em; inlineEmail.textContent = em; }
+      [['ft-li', s.social_linkedin], ['ft-tw', s.social_twitter],
+       ['ft-ig', s.social_instagram], ['ft-fb', s.social_facebook]
+      ].forEach(function(pair) {
+        var el = document.getElementById(pair[0]);
+        if (!el) return;
+        var li = el.parentElement;
+        if (pair[1]) { el.href = pair[1]; if (li) li.style.display = ''; }
+        else { if (li) li.style.display = 'none'; }
+      });
+    }
+    fetch(SUPA_BASE + '/settings?select=key,value', {
+      headers: { 'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + SUPA_KEY }
+    })
+    .then(function(r) { return r.json(); })
+    .then(function(rows) {
+      if (!Array.isArray(rows)) return;
+      var s = {};
+      rows.forEach(function(r) { s[r.key] = r.value; });
+      applySettings(s);
+    })
+    .catch(function() {});
+  })();
 </script>
 </body>
 </html>

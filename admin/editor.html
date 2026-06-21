@@ -237,13 +237,19 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
 <script>
-  const session = JSON.parse(localStorage.getItem('cs_admin_session'));
-  if(!session) window.location.replace('index.html');
-  document.getElementById('user-avatar').textContent = (session?.name||'A').charAt(0).toUpperCase();
-
   const db = supabase.createClient('https://hyfotqpttdgznfjzppvc.supabase.co','sb_publishable_2lN1e_eazz1G5_DAHuiAOQ_oLBfQpcZ');
 
-  function logout(){ localStorage.removeItem('cs_admin_session'); window.location.replace('index.html'); }
+  // ── Auth guard (async) ──
+  document.body.style.visibility = 'hidden';
+  db.auth.getSession().then(function({ data: { session } }) {
+    if(!session) { window.location.replace('index.html'); return; }
+    const name = (session.user.email || '').split('@')[0] || 'Admin';
+    document.getElementById('user-avatar').textContent = name.charAt(0).toUpperCase();
+    document.body.style.visibility = 'visible';
+    loadPost();
+  });
+
+  function logout(){ db.auth.signOut().then(function() { window.location.replace('index.html'); }); }
 
   function toast(msg,type='success'){
     const el=document.createElement('div');
@@ -364,7 +370,6 @@
     });
   }, 30000);
 
-  loadPost();
 </script>
 </body>
 </html>
