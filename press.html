@@ -5,6 +5,17 @@
   src="https://js-de.sentry-cdn.com/17df2df864322799d56488aa6821a419.min.js"
   crossorigin="anonymous"
 ></script>
+<script>
+  Sentry.onLoad(function() {
+    Sentry.init({
+      dsn: "https://17df2df864322799d56488aa6821a4190o4511588312612864.ingest.de.sentry.io/4511609827493968",
+      dataCollection: {
+        // userInfo: false,
+        // httpBodies: []
+      }
+    });
+  });
+</script>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Press &amp; Media — Datapyre Technologies</title>
