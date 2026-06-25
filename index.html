@@ -187,20 +187,73 @@
   .tag { font-family: 'Jost'; font-weight: 700; font-size: 17px; }
   .layer small { color: var(--muted); font-size: 13px; margin-left: auto; }
 
-  /* ── CLIENTS BAR ── */
-  .clients { border-top: 1px solid var(--ink-line); border-bottom: 1px solid var(--ink-line); padding: 30px 0; }
-  .clients-inner { display: flex; align-items: center; gap: 40px; flex-wrap: wrap; }
-  .clients-label { font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); }
-  .clients-logos { display: flex; gap: 16px; flex-wrap: wrap; align-items: center; flex: 1; }
-  .clients-logos span {
-    font-family: 'Jost'; font-weight: 600; font-size: 15px;
-    color: var(--paper); opacity: 0.5; letter-spacing: 0.04em; text-transform: uppercase;
-    transition: opacity 0.3s, border-color 0.3s;
-    padding: 7px 18px;
-    border: 1px solid var(--ink-line);
-    border-radius: 40px;
+  /* ── Premium client marquee ── */
+  .marquee-section {
+    border-top: 1px solid var(--ink-line);
+    border-bottom: 1px solid var(--ink-line);
+    padding: 36px 0;
+    overflow: hidden;
+    background: var(--ink);
   }
-  .clients-logos span:hover { opacity: 1; border-color: var(--gold); }
+  .marquee-label {
+    text-align: center;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 600;
+    margin-bottom: 28px;
+  }
+  .marquee-track {
+    overflow: hidden;
+    width: 100%;
+    cursor: default;
+  }
+  .marquee-inner {
+    display: flex;
+    align-items: center;
+    width: max-content;
+    animation: marqueeScroll 28s linear infinite;
+    gap: 0;
+  }
+  .marquee-track:hover .marquee-inner {
+    animation-play-state: paused;
+  }
+  .marquee-inner span {
+    font-family: 'Jost', 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 15px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #ffffff;
+    opacity: 0.8;
+    transition: opacity 0.25s ease;
+    padding: 0 70px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .marquee-inner span:hover {
+    opacity: 1;
+  }
+  @keyframes marqueeScroll {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .marquee-inner {
+      animation: none;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 24px 48px;
+      width: 100%;
+    }
+  }
+  @media (max-width: 768px) {
+    .marquee-inner span {
+      font-size: 13px;
+      padding: 0 48px;
+    }
+  }
 
   /* ── SERVICES ── */
   section { padding: 110px 0; border-top: 1px solid rgba(194,125,40,0.22); }
@@ -780,19 +833,25 @@ posthog.init('phc_pgtfyifAnbxrFUawtbsm2PtQkwPNDDkEhpUCVoDWHWNv', {
   </div>
 </header>
 
-<div class="clients">
-  <div class="wrap clients-inner">
-    <span class="clients-label">Trusted to deliver for</span>
-    <div class="clients-logos">
+<section class="marquee-section">
+  <p class="marquee-label">Trusted to deliver for</p>
+  <div class="marquee-track" aria-label="Our clients">
+    <div class="marquee-inner">
       <span>Dex Mumo Group</span>
       <span>Zetech University</span>
       <span>Nax Today</span>
       <span>Editon Consortium</span>
       <span>Gretsa University</span>
       <span>East University</span>
+      <span aria-hidden="true">Dex Mumo Group</span>
+      <span aria-hidden="true">Zetech University</span>
+      <span aria-hidden="true">Nax Today</span>
+      <span aria-hidden="true">Editon Consortium</span>
+      <span aria-hidden="true">Gretsa University</span>
+      <span aria-hidden="true">East University</span>
     </div>
   </div>
-</div>
+</section>
 
 <section id="services">
   <div class="wrap">
@@ -966,7 +1025,7 @@ posthog.init('phc_pgtfyifAnbxrFUawtbsm2PtQkwPNDDkEhpUCVoDWHWNv', {
       </div>
     </div>
     <div class="copyright">
-      <span>© 2026 Datapyre Technologies. Nairobi, Kenya.</span>
+      <span>© 2026 Datapyre Technologies.</span>
       <span class="tagline">Built layer by layer.</span>
     </div>
   </div>
