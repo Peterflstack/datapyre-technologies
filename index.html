@@ -22,13 +22,19 @@
 <link rel="icon" href="datapyre_favicon.png" type="image/png" />
 <link rel="shortcut icon" href="datapyre_favicon.png" type="image/png" />
 <meta name="description" content="Datapyre Technologies designs and engineers websites, mobile apps, and AI tools for growing brands — then scales them with full-funnel advertising. Based in Nairobi, Kenya." />
+<meta name="robots" content="index, follow" />
+<link rel="canonical" href="https://datapyretechnologies.com/" />
 <meta property="og:type" content="website" />
 <meta property="og:title" content="Datapyre Technologies — Performance, Built In Layers" />
 <meta property="og:description" content="Datapyre Technologies designs and engineers websites, mobile apps, and AI tools for growing brands — then scales them with full-funnel advertising. Based in Nairobi, Kenya." />
-<meta property="og:image" content="datapyre_favicon.png" />
-<meta name="twitter:card" content="summary" />
+<meta property="og:url" content="https://datapyretechnologies.com/" />
+<meta property="og:image" content="https://datapyretechnologies.com/datapyre_favicon.png" />
+<meta property="og:site_name" content="Datapyre Technologies" />
+<meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="Datapyre Technologies — Performance, Built In Layers" />
 <meta name="twitter:description" content="Websites, mobile apps, AI, data and advertising as one connected stack. Based in Nairobi, Kenya." />
+<meta name="twitter:image" content="https://datapyretechnologies.com/datapyre_favicon.png" />
+<meta name="twitter:site" content="@datapyretech" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Afacad:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Jost:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet" />
@@ -783,6 +789,188 @@
   .related-date { font-size: 12px; color: var(--muted); }
   .spa-post-back-foot { text-align: center; padding: 40px 0 80px; }
 
+  /* ── DIGITIZATION STATS SECTION ── */
+  #digitize-stats { padding: 100px 0; border-top: 1px solid rgba(194,125,40,0.22); }
+  .dstats-head { text-align: center; margin-bottom: 72px; }
+  .dstats-title {
+    font-family: 'Jost', sans-serif; font-weight: 800;
+    font-size: clamp(26px, 3.8vw, 50px); line-height: 1.08;
+    letter-spacing: -0.02em; margin-bottom: 20px;
+  }
+  .dstats-sub {
+    font-size: clamp(15px, 1.2vw, 17px); color: var(--muted);
+    max-width: 600px; margin: 0 auto; line-height: 1.65;
+  }
+  .dstats-row {
+    display: grid;
+    grid-template-columns: 1fr 1px 1fr 1px 1fr 1px 1fr 1px 1fr;
+    align-items: center;
+  }
+  .stat-card {
+    display: flex; flex-direction: column; align-items: center;
+    text-align: center; padding: 12px 24px;
+  }
+  .stat-num {
+    font-family: 'Jost', sans-serif; font-weight: 800;
+    font-size: clamp(36px, 5vw, 64px); line-height: 1;
+    letter-spacing: -0.03em;
+    background: linear-gradient(135deg, var(--paper), var(--gold));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .stat-label {
+    font-size: 14px; color: var(--muted); line-height: 1.5;
+    text-align: center; max-width: 160px; margin: 10px auto 0;
+  }
+  .stat-source {
+    font-size: 11px; color: var(--muted); letter-spacing: 0.08em;
+    text-transform: uppercase; margin-top: 8px;
+    opacity: 0; transition: opacity 0.2s ease;
+  }
+  .stat-card:hover .stat-source { opacity: 1; }
+  .stat-divider {
+    align-self: stretch; width: 1px; background: var(--ink-line);
+    position: relative; overflow: hidden; flex-shrink: 0; min-height: 120px;
+  }
+  .divider-glow {
+    position: absolute; top: -50%; left: 0; width: 100%; height: 80px;
+    background: linear-gradient(180deg, transparent 0%, var(--accent) 40%, var(--gold) 60%, transparent 100%);
+    opacity: 0; transition: opacity 0.3s ease, top 0.15s ease;
+    pointer-events: none; border-radius: 2px;
+  }
+  @media (max-width: 899px) {
+    #digitize-stats { padding: 72px 0; }
+    .dstats-row {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 52px 8px; justify-items: center;
+    }
+    .stat-divider { display: none; }
+    .stat-card:nth-child(9) { grid-column: 3; }
+  }
+  @media (max-width: 599px) {
+    #digitize-stats { padding: 64px 0; }
+    .dstats-row { grid-template-columns: repeat(2, 1fr); gap: 44px 8px; }
+    .stat-card:nth-child(9) { grid-column: 1 / -1; }
+    .dstats-head { margin-bottom: 52px; }
+  }
+
+  /* ── FEATURE 1: HERO CANVAS ── */
+  #hero-canvas {
+    position: absolute; inset: 0; z-index: 0; pointer-events: none;
+    display: block; width: 100%; height: 100%;
+  }
+
+  /* ── FEATURE 2: TESTIMONIALS ── */
+  #testimonials { padding: 110px 0; border-top: 1px solid rgba(194,125,40,0.22); }
+  .tcarousel {
+    position: relative; display: flex; align-items: center; gap: 14px;
+    margin-top: 8px;
+  }
+  .tcar-viewport { overflow: hidden; flex: 1; }
+  .tcar-track {
+    display: flex; will-change: transform;
+    transition: transform 0.5s ease-in-out;
+  }
+  .tcar-track.no-transition { transition: none !important; }
+  .tcard {
+    flex-shrink: 0;
+    background: var(--ink-soft);
+    border: 1px solid var(--ink-line);
+    border-left: 3px solid var(--gold);
+    border-radius: 16px;
+    padding: 32px;
+    box-sizing: border-box;
+    position: relative;
+  }
+  .tcard-stars { color: var(--gold); font-size: 15px; letter-spacing: 3px; margin-bottom: 10px; }
+  .tcard-quote-mark {
+    font-size: 64px; line-height: 1; color: var(--accent);
+    font-family: Georgia, serif; font-weight: 700;
+    position: absolute; top: 24px; right: 24px; opacity: 0.5;
+    pointer-events: none;
+  }
+  .tcard-text {
+    font-style: italic; color: var(--silver);
+    font-size: 15px; line-height: 1.72;
+    margin-bottom: 24px; padding-right: 44px;
+  }
+  .tcard-name { font-family: 'Jost'; font-weight: 700; color: var(--paper); font-size: 16px; }
+  .tcard-company { font-family: 'Afacad'; color: var(--gold); font-size: 13px; margin-top: 4px; }
+  .tcar-arrow {
+    width: 44px; height: 44px; border-radius: 50%; flex-shrink: 0;
+    background: var(--ink-soft); border: 1px solid var(--ink-line);
+    color: var(--paper); font-size: 24px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: border-color 0.25s, color 0.25s;
+  }
+  .tcar-arrow:hover { border-color: var(--gold); color: var(--gold); }
+  .tcar-dots { display: flex; justify-content: center; gap: 8px; margin-top: 28px; }
+  .tcar-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--ink-line); border: none; cursor: pointer; padding: 0;
+    transition: background 0.25s, transform 0.25s;
+  }
+  .tcar-dot.active { background: var(--accent); transform: scale(1.4); }
+  @media (max-width: 899px) {
+    .tcar-arrow { width: 36px; height: 36px; font-size: 20px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .tcar-track { transition: none !important; }
+  }
+
+  /* ── FEATURE 3: TEAM PHOTO ── */
+  .team-photo-fig { margin-top: 40px; }
+  .team-photo {
+    width: 100%; max-width: 760px; height: auto;
+    border-radius: 16px; object-fit: cover; display: block;
+  }
+  .team-photo-cap {
+    font-size: 13px; color: var(--muted); text-align: center;
+    margin-top: 10px; font-style: italic;
+  }
+  @media (max-width: 600px) {
+    .team-photo-fig { margin-top: 28px; }
+    .team-photo { border-radius: 10px; }
+  }
+
+  /* ── FEATURE 4: COOKIE RIBBON ── */
+  #cookie-ribbon {
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 1002;
+    background: rgba(10,23,51,0.96);
+    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    border-top: 1px solid var(--ink-line);
+    padding: 10px 24px;
+    transform: translateY(100%);
+    transition: transform 0.4s ease;
+  }
+  #cookie-ribbon.cookie-ribbon-visible { transform: translateY(0); }
+  .cookie-ribbon-inner {
+    display: flex; align-items: center; gap: 16px;
+    max-width: var(--maxw); margin: 0 auto;
+  }
+  .cookie-text { font-size: 13px; color: var(--muted); flex: 1; }
+  .cookie-link { color: var(--accent); }
+  .cookie-link:hover { text-decoration: underline; }
+  .cookie-btns { display: flex; gap: 8px; flex-shrink: 0; }
+  .cookie-btn-reject {
+    font-size: 12px; padding: 5px 14px;
+    border: 1px solid var(--ink-line); color: var(--muted);
+    border-radius: 100px; cursor: pointer; background: transparent;
+    font-family: inherit; transition: border-color 0.2s;
+  }
+  .cookie-btn-reject:hover { border-color: var(--muted); }
+  .cookie-btn-accept {
+    font-size: 12px; padding: 5px 14px;
+    background: var(--accent); color: #061634;
+    border-radius: 100px; border: none; cursor: pointer;
+    font-family: inherit; transition: background 0.2s;
+  }
+  .cookie-btn-accept:hover { background: var(--accent-bright); }
+  @media (max-width: 600px) {
+    .cookie-ribbon-inner { flex-direction: column; gap: 10px; text-align: center; }
+    .cookie-btns { justify-content: center; }
+  }
+
 </style>
 <script>
 !function(t,e){var o,n,p,r;e.__SV||(window.posthog && window.posthog.__loaded)||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="Pn Ln init Gn Jn Si Zn Yn Vn capture calculateEventProperties ns register register_once register_for_session unregister unregister_for_session ls getFeatureFlag getFeatureFlagPayload getFeatureFlagResult isFeatureEnabled reloadFeatureFlags updateFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSurveysLoaded onSessionId getSurveys getActiveMatchingSurveys renderSurvey displaySurvey cancelPendingSurvey canRenderSurvey canRenderSurveyAsync us identify setPersonProperties unsetPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset setIdentity clearIdentity get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException addExceptionStep captureLog startExceptionAutocapture stopExceptionAutocapture loadToolbar get_property getSessionProperty ss ts createPersonProfile setInternalOrTestUser os Un ds opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing get_explicit_consent_status is_capturing clear_opt_in_out_capturing Xn debug Ii mr getPageViewId captureTraceFeedback captureTraceMetric jn".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
@@ -792,13 +980,40 @@ posthog.init('phc_pgtfyifAnbxrFUawtbsm2PtQkwPNDDkEhpUCVoDWHWNv', {
     person_profiles: 'identified_only',
 })
 </script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Datapyre Technologies",
+  "url": "https://datapyretechnologies.com",
+  "logo": "https://datapyretechnologies.com/datapyre_logo.png",
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "telephone": "+254700395897",
+    "contactType": "customer service",
+    "areaServed": "KE",
+    "availableLanguage": "English"
+  },
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Westcom Point, Waiyaki Way",
+    "addressLocality": "Nairobi",
+    "addressCountry": "KE"
+  },
+  "sameAs": [
+    "https://linkedin.com/company/datapyre-technologies",
+    "https://x.com/datapyretech",
+    "https://github.com/Peterflstack"
+  ]
+}
+</script>
 </head>
 <body>
 
 <nav id="nav">
   <div class="wrap nav-inner">
     <a href="#top" class="logo">
-      <img src="datapyre_logo.png" class="logo-mark" alt="Datapyre Technologies" />
+      <img src="datapyre_logo.png" class="logo-mark" alt="Datapyre Technologies" fetchpriority="high" />
     </a>
     <div class="nav-links">
       <a href="#services">What we do</a>
@@ -813,6 +1028,7 @@ posthog.init('phc_pgtfyifAnbxrFUawtbsm2PtQkwPNDDkEhpUCVoDWHWNv', {
 
 <a id="top"></a>
 <header class="hero">
+  <canvas id="hero-canvas" aria-hidden="true"></canvas>
   <div class="wrap hero-grid">
     <div>
       <div class="eyebrow typewriter-wrap">Datapyre Technologies&nbsp;<span id="tw-word"></span><span class="tw-cursor">|</span></div>
@@ -901,6 +1117,46 @@ posthog.init('phc_pgtfyifAnbxrFUawtbsm2PtQkwPNDDkEhpUCVoDWHWNv', {
   </div>
 </section>
 
+<section id="digitize-stats">
+  <div class="wrap">
+    <div class="dstats-head reveal">
+      <h2 class="dstats-title">Digitization is reshaping every business on earth.</h2>
+      <p class="dstats-sub">The numbers speak plainly. Businesses that digitize grow faster, earn more, and outcompete those that don't.</p>
+    </div>
+    <div class="dstats-row" id="dstats-row">
+      <div class="stat-card reveal">
+        <div class="stat-num" data-prefix="$" data-count="2.58" data-suffix="T" data-decimals="2">$2.58T</div>
+        <div class="stat-label">invested in digital transformation globally in 2025</div>
+        <div class="stat-source">Source: IDC</div>
+      </div>
+      <div class="stat-divider"><span class="divider-glow"></span></div>
+      <div class="stat-card reveal">
+        <div class="stat-num" data-prefix="" data-count="26" data-suffix="%" data-decimals="0">26%</div>
+        <div class="stat-label">average profitability increase for digitally transformed businesses</div>
+        <div class="stat-source">Source: McKinsey</div>
+      </div>
+      <div class="stat-divider"><span class="divider-glow"></span></div>
+      <div class="stat-card reveal">
+        <div class="stat-num" data-prefix="" data-count="66" data-suffix="%" data-decimals="0">66%</div>
+        <div class="stat-label">of organizations report measurable productivity gains from AI</div>
+        <div class="stat-source">Source: Deloitte</div>
+      </div>
+      <div class="stat-divider"><span class="divider-glow"></span></div>
+      <div class="stat-card reveal">
+        <div class="stat-num" data-prefix="" data-count="89" data-suffix="%" data-decimals="0">89%</div>
+        <div class="stat-label">of large enterprises globally have digital transformation underway</div>
+        <div class="stat-source">Source: McKinsey</div>
+      </div>
+      <div class="stat-divider"><span class="divider-glow"></span></div>
+      <div class="stat-card reveal">
+        <div class="stat-num" data-prefix="$" data-count="100" data-suffix="T" data-decimals="0">$100T</div>
+        <div class="stat-label">projected economic value unlocked by digitization worldwide</div>
+        <div class="stat-source">Source: World Economic Forum</div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section id="about" class="approach">
   <div class="wrap">
     <p class="big reveal">We named the company <b>Datapyre</b> for a reason. Real digital results are not one clever campaign. They are <b>layers</b>, web, mobile, AI, data, and advertising, stacked so each one strengthens the next.</p>
@@ -908,6 +1164,76 @@ posthog.init('phc_pgtfyifAnbxrFUawtbsm2PtQkwPNDDkEhpUCVoDWHWNv', {
       <div class="stat reveal"><div class="n" data-count="100" data-suffix="+">0</div><div class="l">Brands served</div></div>
       <div class="stat reveal"><div class="n" data-count="6"   data-suffix="">0</div><div class="l">Disciplines, one roof</div></div>
       <div class="stat reveal"><div class="n" data-count="1"   data-suffix="">0</div><div class="l">Connected stack</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="testimonials">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="eyebrow">What clients say</div>
+      <h2>Trusted by builders across Kenya.</h2>
+      <p>Real results. Real relationships. Real impact.</p>
+    </div>
+    <div class="tcarousel">
+      <button class="tcar-arrow tcar-prev" id="tcar-prev" aria-label="Previous testimonials">&#8249;</button>
+      <div class="tcar-viewport" id="tcar-viewport">
+        <div class="tcar-track" id="tcar-track">
+          <div class="tcard">
+            <div class="tcard-stars">★★★★★</div>
+            <div class="tcard-quote-mark">"</div>
+            <p class="tcard-text">Datapyre completely rebuilt our digital identity. From scattered ad spend with no reporting to a clean, converting funnel across Meta and Google — our audience reach tripled within the first quarter. They don't just run ads; they think like brand strategists.</p>
+            <div class="tcard-author">
+              <div class="tcard-name">Michael M Ndonye</div>
+              <div class="tcard-company">Dex Mumo Media Group, Nakuru</div>
+            </div>
+          </div>
+          <div class="tcard">
+            <div class="tcard-stars">★★★★★</div>
+            <div class="tcard-quote-mark">"</div>
+            <p class="tcard-text">We deal with complex compliance data across multiple regulatory frameworks. Datapyre built us dashboards that surface exactly what leadership needs — clean, auditable, updated in real time. What used to take a week of analyst time now takes minutes.</p>
+            <div class="tcard-author">
+              <div class="tcard-name">Maxwel Odinga</div>
+              <div class="tcard-company">Bigpharma, Nairobi</div>
+            </div>
+          </div>
+          <div class="tcard">
+            <div class="tcard-stars">★★★★★</div>
+            <div class="tcard-quote-mark">"</div>
+            <p class="tcard-text">Our payment reconciliation was entirely manual — spreadsheets, follow-up calls, the whole mess. Datapyre automated the entire flow. Error rates dropped to near zero and our team reclaimed hours every day. The ROI was visible in the first month.</p>
+            <div class="tcard-author">
+              <div class="tcard-name">Boniface Wesonga</div>
+              <div class="tcard-company">Premits, Kisumu</div>
+            </div>
+          </div>
+          <div class="tcard">
+            <div class="tcard-stars">★★★★★</div>
+            <div class="tcard-quote-mark">"</div>
+            <p class="tcard-text">Travel bookings live or die on mobile experience. Datapyre designed and built our booking flow from scratch — fast load times, frictionless checkout, and a UI that builds confidence. Our mobile conversion rate climbed 40% within 60 days of launch.</p>
+            <div class="tcard-author">
+              <div class="tcard-name">Trevor Daniel</div>
+              <div class="tcard-company">M-travellers, Nairobi</div>
+            </div>
+          </div>
+          <div class="tcard">
+            <div class="tcard-stars">★★★★★</div>
+            <div class="tcard-quote-mark">"</div>
+            <p class="tcard-text">Donor trust is everything in our space. Datapyre built a platform that felt secure, looked professional, and made online giving simple. Recurring donations increased significantly after the redesign — donors told us directly the new site made them more confident to give.</p>
+            <div class="tcard-author">
+              <div class="tcard-name">Johnson Mbugu</div>
+              <div class="tcard-company">Donate.com, Mombasa</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="tcar-arrow tcar-next" id="tcar-next" aria-label="Next testimonials">&#8250;</button>
+    </div>
+    <div class="tcar-dots" id="tcar-dots">
+      <button class="tcar-dot active" data-index="0" aria-label="Go to testimonial 1"></button>
+      <button class="tcar-dot" data-index="1" aria-label="Go to testimonial 2"></button>
+      <button class="tcar-dot" data-index="2" aria-label="Go to testimonial 3"></button>
+      <button class="tcar-dot" data-index="3" aria-label="Go to testimonial 4"></button>
+      <button class="tcar-dot" data-index="4" aria-label="Go to testimonial 5"></button>
     </div>
   </div>
 </section>
@@ -1070,6 +1396,17 @@ posthog.init('phc_pgtfyifAnbxrFUawtbsm2PtQkwPNDDkEhpUCVoDWHWNv', {
     </button>
   </div>
   <div class="nova-footer">Powered by <span class="ng">Nova AI</span></div>
+</div>
+
+<!-- Cookie consent ribbon -->
+<div id="cookie-ribbon" role="region" aria-label="Cookie consent">
+  <div class="cookie-ribbon-inner">
+    <p class="cookie-text">We use cookies to improve your experience. <a href="/privacy" class="cookie-link">Learn more</a></p>
+    <div class="cookie-btns">
+      <button id="cookie-reject" class="cookie-btn-reject">Reject</button>
+      <button id="cookie-accept" class="cookie-btn-accept">Accept</button>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -1597,6 +1934,287 @@ posthog.init('phc_pgtfyifAnbxrFUawtbsm2PtQkwPNDDkEhpUCVoDWHWNv', {
       }
     })
     .catch(() => {}); // silent — blank space shown on error
+  })();
+
+  /* ── DIGITIZATION STATS: COUNT-UP + GLOW EFFECT ── */
+  (function() {
+    var dstatsRow = document.getElementById('dstats-row');
+    if (!dstatsRow) return;
+    var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var touchOnly = window.matchMedia('(hover: none)').matches;
+
+    /* Count-up for this section (handles decimals + prefix/suffix) */
+    function dstatCountUp(el) {
+      var target   = parseFloat(el.dataset.count);
+      var prefix   = el.dataset.prefix   || '';
+      var suffix   = el.dataset.suffix   || '';
+      var decimals = parseInt(el.dataset.decimals || '0', 10);
+      var duration = 1800;
+      var start    = performance.now();
+      (function step(now) {
+        var t    = Math.min((now - start) / duration, 1);
+        var ease = 1 - Math.pow(1 - t, 4);
+        var val  = ease * target;
+        el.textContent = prefix + val.toFixed(decimals) + suffix;
+        if (t < 1) requestAnimationFrame(step);
+      })(performance.now());
+    }
+
+    var fired = false;
+    var ob = new IntersectionObserver(function(entries) {
+      if (entries[0].isIntersecting && !fired) {
+        fired = true;
+        dstatsRow.querySelectorAll('.stat-num[data-count]').forEach(function(el) {
+          if (prefersReduced) {
+            /* show final value immediately */
+            var p = el.dataset.prefix || '', s = el.dataset.suffix || '';
+            var d = parseInt(el.dataset.decimals || '0', 10);
+            el.textContent = p + parseFloat(el.dataset.count).toFixed(d) + s;
+          } else {
+            dstatCountUp(el);
+          }
+        });
+        ob.disconnect();
+      }
+    }, { threshold: 0.3 });
+    ob.observe(dstatsRow);
+
+    /* Glow effect — desktop/mouse only */
+    if (touchOnly || prefersReduced) return;
+    var section = dstatsRow.closest('section');
+    var dividers = Array.from(dstatsRow.querySelectorAll('.stat-divider'));
+
+    section.addEventListener('mousemove', function(e) {
+      var secRect = section.getBoundingClientRect();
+      var mouseX  = e.clientX;
+      var mouseY  = e.clientY - secRect.top;
+      dividers.forEach(function(div) {
+        var glow   = div.querySelector('.divider-glow');
+        if (!glow) return;
+        var rect   = div.getBoundingClientRect();
+        var divCX  = rect.left + rect.width / 2;
+        var dist   = Math.abs(mouseX - divCX);
+        if (dist < 120) {
+          var relY = mouseY - 40; /* center the 80px glow on cursor */
+          glow.style.opacity = '1';
+          glow.style.top = relY + 'px';
+        } else {
+          glow.style.opacity = '0';
+        }
+      });
+    });
+
+    section.addEventListener('mouseleave', function() {
+      dividers.forEach(function(div) {
+        var glow = div.querySelector('.divider-glow');
+        if (glow) glow.style.opacity = '0';
+      });
+    });
+  })();
+
+  /* ── FEATURE 1: HERO CANVAS ── */
+  (function() {
+    var canvas = document.getElementById('hero-canvas');
+    if (!canvas) return;
+    var ctx = canvas.getContext('2d');
+    var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var mobile = window.innerWidth < 768;
+    if (mobile && prefersReduced) { canvas.style.display = 'none'; return; }
+
+    var nodes = [], animId = null;
+
+    function initNodes() {
+      var w = canvas.width, h = canvas.height;
+      var isMob = w < 768;
+      var count = isMob ? (30 + Math.floor(Math.random() * 11)) : (60 + Math.floor(Math.random() * 21));
+      nodes = [];
+      for (var i = 0; i < count; i++) {
+        var speed = 0.3 + Math.random() * 0.3;
+        var angle = Math.random() * Math.PI * 2;
+        nodes.push({ x: Math.random() * w, y: Math.random() * h,
+          vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed,
+          r: 2 + Math.random() });
+      }
+    }
+
+    function resize() {
+      var hero = canvas.parentElement;
+      canvas.width  = hero.offsetWidth;
+      canvas.height = hero.offsetHeight;
+      initNodes();
+    }
+
+    function frame() {
+      var w = canvas.width, h = canvas.height;
+      var threshold = w < 768 ? 100 : 120;
+      ctx.clearRect(0, 0, w, h);
+      for (var i = 0; i < nodes.length; i++) {
+        for (var j = i + 1; j < nodes.length; j++) {
+          var dx = nodes[i].x - nodes[j].x, dy = nodes[i].y - nodes[j].y;
+          var dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < threshold) {
+            ctx.beginPath();
+            ctx.moveTo(nodes[i].x, nodes[i].y);
+            ctx.lineTo(nodes[j].x, nodes[j].y);
+            ctx.strokeStyle = 'rgba(46,139,255,' + ((1 - dist / threshold) * 0.25) + ')';
+            ctx.lineWidth = 1;
+            ctx.stroke();
+          }
+        }
+      }
+      for (var k = 0; k < nodes.length; k++) {
+        var n = nodes[k];
+        n.x += n.vx; n.y += n.vy;
+        if (n.x < 0 || n.x > w) { n.vx *= -1; n.x = Math.max(0, Math.min(w, n.x)); }
+        if (n.y < 0 || n.y > h) { n.vy *= -1; n.y = Math.max(0, Math.min(h, n.y)); }
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(46,139,255,0.6)';
+        ctx.fill();
+      }
+      animId = requestAnimationFrame(frame);
+    }
+
+    var resizeTimer;
+    window.addEventListener('resize', function() {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(function() {
+        if (animId) cancelAnimationFrame(animId);
+        resize();
+        if (!prefersReduced) animId = requestAnimationFrame(frame);
+      }, 250);
+    });
+
+    resize();
+    if (!prefersReduced) animId = requestAnimationFrame(frame);
+  })();
+
+  /* ── FEATURE 2: TESTIMONIAL CAROUSEL ── */
+  (function() {
+    var TOTAL = 5;
+    var track    = document.getElementById('tcar-track');
+    var viewport = document.getElementById('tcar-viewport');
+    var dotsEl   = document.getElementById('tcar-dots');
+    var prevBtn  = document.getElementById('tcar-prev');
+    var nextBtn  = document.getElementById('tcar-next');
+    if (!track) return;
+    var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // Clone cards for infinite loop: [clones…, real…, clones…]
+    var origCards = Array.from(track.querySelectorAll('.tcard'));
+    origCards.forEach(function(c) { track.appendChild(c.cloneNode(true)); });
+    origCards.forEach(function(c) { track.insertBefore(c.cloneNode(true), track.firstChild); });
+    // Track now has 15 cards: indices 0-4 are pre-clones, 5-9 are real, 10-14 are post-clones
+
+    var current = 0;
+    var trackOffset = TOTAL; // start at first real card
+    var vis = 3;
+    var isTransitioning = false;
+    var autoTimer = null;
+
+    function getVis() {
+      var w = window.innerWidth;
+      return w >= 900 ? 3 : w >= 600 ? 2 : 1;
+    }
+
+    function cardW() { return viewport.offsetWidth / vis; }
+
+    function setWidths() {
+      var w = cardW();
+      var allCards = track.querySelectorAll('.tcard');
+      allCards.forEach(function(c) { c.style.width = w + 'px'; });
+    }
+
+    function applyOffset(animate) {
+      if (!animate || prefersReduced) {
+        track.classList.add('no-transition');
+      } else {
+        track.classList.remove('no-transition');
+      }
+      track.style.transform = 'translateX(' + (-trackOffset * cardW()) + 'px)';
+    }
+
+    function updateDots() {
+      dotsEl.querySelectorAll('.tcar-dot').forEach(function(d, i) {
+        d.classList.toggle('active', i === current);
+      });
+    }
+
+    function navigate(delta) {
+      if (isTransitioning && !prefersReduced) return;
+      isTransitioning = true;
+      trackOffset += delta;
+      current = (current + delta + TOTAL) % TOTAL;
+      updateDots();
+      if (prefersReduced) {
+        trackOffset = TOTAL + current;
+        applyOffset(false);
+        isTransitioning = false;
+        return;
+      }
+      applyOffset(true);
+      setTimeout(function() {
+        track.classList.add('no-transition');
+        trackOffset = TOTAL + current;
+        track.style.transform = 'translateX(' + (-trackOffset * cardW()) + 'px)';
+        void track.offsetWidth; // force reflow
+        track.classList.remove('no-transition');
+        isTransitioning = false;
+      }, 520);
+    }
+
+    function goTo(idx) {
+      if (isTransitioning && !prefersReduced) return;
+      isTransitioning = true;
+      current = ((idx % TOTAL) + TOTAL) % TOTAL;
+      trackOffset = TOTAL + current;
+      updateDots();
+      applyOffset(!prefersReduced);
+      setTimeout(function() { isTransitioning = false; }, prefersReduced ? 0 : 520);
+    }
+
+    function startAuto() {
+      if (prefersReduced) return;
+      autoTimer = setInterval(function() { navigate(1); }, 5000);
+    }
+    function stopAuto() { clearInterval(autoTimer); }
+
+    prevBtn.addEventListener('click', function() { stopAuto(); navigate(-1); startAuto(); });
+    nextBtn.addEventListener('click', function() { stopAuto(); navigate(1); startAuto(); });
+
+    dotsEl.querySelectorAll('.tcar-dot').forEach(function(d) {
+      d.addEventListener('click', function() {
+        stopAuto(); goTo(+d.dataset.index); startAuto();
+      });
+    });
+
+    viewport.addEventListener('mouseenter', stopAuto);
+    viewport.addEventListener('mouseleave', startAuto);
+
+    var rzTimer;
+    window.addEventListener('resize', function() {
+      clearTimeout(rzTimer);
+      rzTimer = setTimeout(function() {
+        vis = getVis(); setWidths(); applyOffset(false);
+      }, 250);
+    });
+
+    vis = getVis(); setWidths(); applyOffset(false); updateDots(); startAuto();
+  })();
+
+  /* ── FEATURE 4: COOKIE CONSENT ── */
+  (function() {
+    var ribbon = document.getElementById('cookie-ribbon');
+    if (!ribbon) return;
+    var consent = localStorage.getItem('dp_cookie_consent');
+    if (consent === 'accepted' || consent === 'rejected') { ribbon.remove(); return; }
+    setTimeout(function() { ribbon.classList.add('cookie-ribbon-visible'); }, 1500);
+    document.getElementById('cookie-accept').addEventListener('click', function() {
+      localStorage.setItem('dp_cookie_consent', 'accepted'); ribbon.remove();
+    });
+    document.getElementById('cookie-reject').addEventListener('click', function() {
+      localStorage.setItem('dp_cookie_consent', 'rejected'); ribbon.remove();
+    });
   })();
 
 </script>
